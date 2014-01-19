@@ -16,7 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		FA436E92188C637F00F7EFDB /* libconfig.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libconfig.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		FA436E92188C637F00F7EFDB /* libjet_config.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libjet_config.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA436E99188C646B00F7EFDB /* config_error.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = config_error.hpp; sourceTree = "<group>"; };
 		FA436E9A188C646B00F7EFDB /* config_source_impl.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = config_source_impl.hpp; sourceTree = "<group>"; };
 		FA436E9B188C646B00F7EFDB /* config_source.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = config_source.cpp; sourceTree = "<group>"; };
@@ -52,7 +52,7 @@
 		FA436E93188C637F00F7EFDB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				FA436E92188C637F00F7EFDB /* libconfig.dylib */,
+				FA436E92188C637F00F7EFDB /* libjet_config.dylib */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -88,7 +88,7 @@
 			);
 			name = config;
 			productName = config;
-			productReference = FA436E92188C637F00F7EFDB /* libconfig.dylib */;
+			productReference = FA436E92188C637F00F7EFDB /* libjet_config.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
 /* End PBXNativeTarget section */
@@ -216,7 +216,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "jet_$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
@@ -224,7 +224,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "jet_$(TARGET_NAME)";
 			};
 			name = Release;
 		};

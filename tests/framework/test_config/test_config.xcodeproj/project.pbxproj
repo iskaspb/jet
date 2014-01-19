@@ -157,7 +157,7 @@
 				OTHER_LDFLAGS = (
 					"-lgtest",
 					"-lgtest_main",
-					"-lconfig",
+					"-ljet_config",
 				);
 				SDKROOT = macosx;
 			};
@@ -200,7 +200,7 @@
 				OTHER_LDFLAGS = (
 					"-lgtest",
 					"-lgtest_main",
-					"-lconfig",
+					"-ljet_config",
 				);
 				SDKROOT = macosx;
 			};
