@@ -70,22 +70,22 @@ class config_node::impl: boost::noncopyable
 {
 public:
     impl(const std::string& app_name, const std::string& instance_name):
-        appName_(app_name),
-        instanceName_(instance_name),
+        app_name_(app_name),
+        instance_name_(instance_name),
         is_locked_(false),
         config_(0)
     {
-        if(appName_.empty())
+        if(app_name_.empty())
             throw config_error("Empty config name");
         root_.push_back(value_type(ROOT_NODE_NAME, tree()));
         config_ = &root_.front().second;
-        if(!instanceName_.empty())
-            config_->push_back(value_type(instanceName_, tree()));
-        config_->push_back(value_type(appName_, tree()));
+        if(!instance_name_.empty())
+            config_->push_back(value_type(instance_name_, tree()));
+        config_->push_back(value_type(app_name_, tree()));
         config_->push_back(value_type(SHARED_NODE_NAME, tree()));
     }
-    const std::string& app_name() const { return appName_; }
-    const std::string& instance_name() const { return instanceName_; }
+    const std::string& app_name() const { return app_name_; }
+    const std::string& instance_name() const { return instance_name_; }
     void merge(const config_source::impl& source)
     {
         if(is_locked_)
@@ -93,9 +93,9 @@ public:
         const tree& other_config(source.get_root().front().second);
         
         {//...merge shared attributes (if found)
-            const cassoc_tree_iter sharedIter = other_config.find(SHARED_NODE_NAME);
-            if(other_config.not_found() != sharedIter)
-                merge_processor(name(), source.name()).merge(get_shared_node(), sharedIter->second);
+            const cassoc_tree_iter shared_iter = other_config.find(SHARED_NODE_NAME);
+            if(other_config.not_found() != shared_iter)
+                merge_processor(name(), source.name()).merge(get_shared_node(), shared_iter->second);
         }
         const cassoc_tree_iter appIter = other_config.find(app_name());
         if(appIter == other_config.not_found())
@@ -161,10 +161,10 @@ private:
                 if(INSTANCE_NODE_NAME == merge_name)
                     continue;
                 {//...check for ambiguous merge
-                    const size_t fromCount = from.count(merge_name);
-                    const size_t toCount = to.count(merge_name);
-                    if( (fromCount > 0 && toCount > 1) ||
-                        (toCount > 0 && fromCount > 1) )
+                    const size_t from_count = from.count(merge_name);
+                    const size_t to_count = to.count(merge_name);
+                    if( (from_count > 0 && to_count > 1) ||
+                        (to_count > 0 && from_count > 1) )
                         throw config_error(str(
                             boost::format("Can't do ambiguous merge of node '%1%' from config source '%2%' to config '%3%'") %
                             merge_name %
@@ -227,11 +227,11 @@ private:
     tree& get_shared_node()
     {
         assert(!is_locked_);
-        tree& shared(config_->back().second);
-        return shared;
+        tree& shared_node(config_->back().second);
+        return shared_node;
     }
     //...
-    const std::string appName_, instanceName_;
+    const std::string app_name_, instance_name_;
     bool is_locked_;
     tree root_;
     tree* config_;
@@ -315,19 +315,19 @@ void config_node::print(std::ostream& os) const
 }
 
 
-std::string config_node::get(const std::string& rawAttrName) const
+std::string config_node::get(const std::string& raw_attr_name) const
 {
     impl_->get_config_node();//...just to check locked state
-    const std::string attr_name(boost::trim_copy(rawAttrName));
-    const boost::optional<const tree&> attrNode(
+    const std::string attr_name(boost::trim_copy(raw_attr_name));
+    const boost::optional<const tree&> attr_node(
         static_cast<const tree*>(tree_node_)->get_child_optional(attr_name));
-    if(!attrNode)
+    if(!attr_node)
         throw config_error(str(
             boost::format("Can't find property '%1%' in config '%2%'") %
             attr_name %
             name()));
-    if(attrNode->empty())
-        return attrNode->data();
+    if(attr_node->empty())
+        return attr_node->data();
     throw config_error(str(
         boost::format("Node '%1%' is intermidiate node without value") %
         add_path(name(), attr_name)));
@@ -336,11 +336,11 @@ std::string config_node::get(const std::string& rawAttrName) const
 boost::optional<std::string> config_node::get_optional(const std::string& attr_name) const
 {
     impl_->get_config_node();//...just to check locked state
-    const boost::optional<const tree&> attrNode(
+    const boost::optional<const tree&> attr_node(
         static_cast<const tree*>(tree_node_)->get_child_optional(boost::trim_copy(attr_name)));
 
-    if(attrNode && attrNode->empty())
-        return attrNode->data();
+    if(attr_node && attr_node->empty())
+        return attr_node->data();
 
     return boost::none;
 }
@@ -364,10 +364,10 @@ config_node config_node::get_node(const std::string& path) const
         path));
 }
 
-boost::optional<config_node> config_node::get_node_optional(const std::string& rawPath) const
+boost::optional<config_node> config_node::get_node_optional(const std::string& raw_path) const
 {
     impl_->get_config_node();//...just to check locked state
-    const std::string path(boost::trim_copy(rawPath));
+    const std::string path(boost::trim_copy(raw_path));
     const boost::optional<const tree&> node(
         static_cast<const tree*>(tree_node_)->get_child_optional(path));
     if(node)

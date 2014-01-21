@@ -65,13 +65,13 @@ public:
     void check_o_data_in_shared_node() const
     {
         const tree::value_type& config(root_.front());
-        const cassoc_tree_iter sharedIter = config.second.find(SHARED_NODE_NAME);
-        if(config.second.not_found() == sharedIter)
+        const cassoc_tree_iter shared_iter = config.second.find(SHARED_NODE_NAME);
+        if(config.second.not_found() == shared_iter)
             return;
-        if(!sharedIter->second.data().empty())
+        if(!shared_iter->second.data().empty())
             throw config_error(str(
                 boost::format("Invalid data node '%1%' under '" SHARED_NODE_NAME "' node in config source '%2%'") %
-                prune_string(sharedIter->second.data()) %
+                prune_string(shared_iter->second.data()) %
                 source_name_));
     }
     void check_no_data_in_app_and_instance_node() const
@@ -116,13 +116,13 @@ public:
     void check_no_shared_subnode_duplicates() const
     {
         const tree::value_type& config(root_.front());
-        const cassoc_tree_iter sharedIter = config.second.find(SHARED_NODE_NAME);
-        if(config.second.not_found() == sharedIter)
+        const cassoc_tree_iter shared_iter = config.second.find(SHARED_NODE_NAME);
+        if(config.second.not_found() == shared_iter)
             return;
 
-        BOOST_FOREACH(const tree::value_type& sharedChild, sharedIter->second)
+        BOOST_FOREACH(const tree::value_type& sharedChild, shared_iter->second)
         {
-            if(sharedIter->second.count(sharedChild.first) > 1)
+            if(shared_iter->second.count(sharedChild.first) > 1)
                 throw config_error(str(
                     boost::format("Duplicate shared node '%1%' in config source '%2%'") %
                     sharedChild.first %
@@ -132,10 +132,10 @@ public:
     void check_no_shared_instance_node() const
     {
         const tree::value_type& config(root_.front());
-        const cassoc_tree_iter sharedIter = config.second.find(SHARED_NODE_NAME);
-        if(config.second.not_found() == sharedIter)
+        const cassoc_tree_iter shared_iter = config.second.find(SHARED_NODE_NAME);
+        if(config.second.not_found() == shared_iter)
             return;
-        BOOST_FOREACH(const tree::value_type& node, sharedIter->second)
+        BOOST_FOREACH(const tree::value_type& node, shared_iter->second)
         {
             const std::string node_name = boost::to_lower_copy(node.first);
             if(node_name == INSTANCE_NODE_NAME)
@@ -148,10 +148,10 @@ public:
     void check_no_direct_shared_attributes() const
     {
         const tree::value_type& config(root_.front());
-        const cassoc_tree_iter sharedIter = config.second.find(SHARED_NODE_NAME);
-        if(config.second.not_found() == sharedIter)
+        const cassoc_tree_iter shared_iter = config.second.find(SHARED_NODE_NAME);
+        if(config.second.not_found() == shared_iter)
             return;
-        BOOST_FOREACH(const tree::value_type& node, sharedIter->second)
+        BOOST_FOREACH(const tree::value_type& node, shared_iter->second)
         {
             if(!node.second.data().empty())
                 throw config_error(str(
