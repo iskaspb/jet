@@ -748,28 +748,55 @@ TEST(config, repeating_node_merge_with_conflicts2)
 }
 
 //TODO: introduce proper boolean property
-//TODO: throw an exception if requested instance doesn't exist
+//TODO: introduce "sequence of properties/elements" for repeating data
 //TODO: (SourceConfig) prohibit '.' separator everywhere except application name
 //TODO: add command line config source
 //TODO: add environment config source
-//TODO: Make configurable '.' separator. This is not really urgent because '.' is good (and standard) candidate for the role so it's unlikely going to change
+//TODO: Is there any good alternative to '..' instance shortcut separator?
 /*
     Currently JetConfig support merge of different config source with some inconvenient limitations.
     TODO list which addresses this issue:
 1. Shared handling
-Default shared configuration is under <merge:default>:
-<shared>
-	<merge:default>
-		...
-	</merge:default>
-<shared>
+Default shared configuration is under <default>:
+<default>
+</default>
 
 All other 'shared' configuration require explicit inclusion into target configuration:
+<shared>
+    <rfa host='10.10.10.30' port='23456' dacs_id='dev1'/>
+    <db>
+        <connection1 host='10.10.10.31' port='56789' user='system'/>
+        <connection2 host='10.10.10.32' port='56789' user='system'/>
+    </db>
+    <display mode='vga'/>
+</shared>
 <myApp>
-	<merge:include merge:ref="shared.rfa">
+    <merge:shared.rfa/>
 </myApp>
 
-2. Merge modes: override, add, id
+Some parameters of merged configuration can be overriden
+<myApp>
+    <merge:shared.rfa port='34567'></merge:shared.rfa>
+</myApp>
+
+Aggregate systax can be used to merge several items from shared config
+<myApp>
+    <merge:shared>
+        <rfa port='34567'/>
+        <display/>
+    </merge:shared>
+</myApp>
+
+One line <merge:shared...> allows to include subelements:
+<myApp>
+    <merge:shared.db.connecton2/>
+</myApp>
+
+Both <shared> and <default> may cantain only unique elements of the first level (because otherwise we would have merge problems)
+
+2. Merge modes: shared, override, add
+<merge:shared> is already explained above.
+
 Everything under this tag will override elements with the same name during merge
 <merge:override>
 	...
@@ -777,7 +804,7 @@ Everything under this tag will override elements with the same name during merge
 
 or
 
-<merge:override/>
+<merge:override.element_name attr='value' attr2='value2'/>
 
 Add sequence of elements:
 <merge:add>
@@ -786,9 +813,5 @@ Add sequence of elements:
 
 or
 
-<merge:add/>
-
-Change merge name matching mechanism
-<merge:id>connection.name</merge:id>
-
+<merge:add.element_name attr='value' attr2='value2'/>
 */

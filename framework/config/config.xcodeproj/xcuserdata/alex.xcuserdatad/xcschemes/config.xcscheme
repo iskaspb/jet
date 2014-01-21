@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "FA436E91188C637F00F7EFDB"
-               BuildableName = "libconfig.dylib"
+               BuildableName = "libjet_config.dylib"
                BlueprintName = "config"
                ReferencedContainer = "container:config.xcodeproj">
             </BuildableReference>
