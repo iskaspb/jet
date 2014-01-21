@@ -62,16 +62,16 @@ public:
                 prune_string(config.second.data()) %
                 source_name_));
     }
-    void check_o_data_in_shared_node() const
+    void check_o_data_in_default_node() const
     {
         const tree::value_type& config(root_.front());
-        const cassoc_tree_iter shared_iter = config.second.find(SHARED_NODE_NAME);
-        if(config.second.not_found() == shared_iter)
+        const cassoc_tree_iter default_iter = config.second.find(DEFAULT_NODE_NAME);
+        if(config.second.not_found() == default_iter)
             return;
-        if(!shared_iter->second.data().empty())
+        if(!default_iter->second.data().empty())
             throw config_error(str(
-                boost::format("Invalid data node '%1%' under '" SHARED_NODE_NAME "' node in config source '%2%'") %
-                prune_string(shared_iter->second.data()) %
+                boost::format("Invalid data node '%1%' under '" DEFAULT_NODE_NAME "' node in config source '%2%'") %
+                prune_string(default_iter->second.data()) %
                 source_name_));
     }
     void check_no_data_in_app_and_instance_node() const
@@ -79,7 +79,7 @@ public:
         const tree::value_type& config(root_.front());
         BOOST_FOREACH(const tree::value_type& app_node, config.second)
         {
-            if(SHARED_NODE_NAME == app_node.first)
+            if(DEFAULT_NODE_NAME == app_node.first)
                 continue;
             if(!app_node.second.data().empty())
                 throw config_error(str(
@@ -106,56 +106,56 @@ public:
             }
         }
     }
-    void check_no_shared_node_duplicates() const
+    void check_no_default_node_duplicates() const
     {
         const tree::value_type& config(root_.front());
-        if(config.second.count(SHARED_NODE_NAME) > 1)
+        if(config.second.count(DEFAULT_NODE_NAME) > 1)
             throw config_error(str(
-                boost::format("Duplicate shared node in config source '%1%'") % source_name_));
+                boost::format("Duplicate default node in config source '%1%'") % source_name_));
     }
-    void check_no_shared_subnode_duplicates() const
+    void check_no_default_subnode_duplicates() const
     {
         const tree::value_type& config(root_.front());
-        const cassoc_tree_iter shared_iter = config.second.find(SHARED_NODE_NAME);
-        if(config.second.not_found() == shared_iter)
+        const cassoc_tree_iter default_iter = config.second.find(DEFAULT_NODE_NAME);
+        if(config.second.not_found() == default_iter)
             return;
 
-        BOOST_FOREACH(const tree::value_type& sharedChild, shared_iter->second)
+        BOOST_FOREACH(const tree::value_type& default_child, default_iter->second)
         {
-            if(shared_iter->second.count(sharedChild.first) > 1)
+            if(default_iter->second.count(default_child.first) > 1)
                 throw config_error(str(
-                    boost::format("Duplicate shared node '%1%' in config source '%2%'") %
-                    sharedChild.first %
+                    boost::format("Duplicate default node '%1%' in config source '%2%'") %
+                    default_child.first %
                     source_name_));
         }
     }
-    void check_no_shared_instance_node() const
+    void check_no_default_instance_node() const
     {
         const tree::value_type& config(root_.front());
-        const cassoc_tree_iter shared_iter = config.second.find(SHARED_NODE_NAME);
-        if(config.second.not_found() == shared_iter)
+        const cassoc_tree_iter default_iter = config.second.find(DEFAULT_NODE_NAME);
+        if(config.second.not_found() == default_iter)
             return;
-        BOOST_FOREACH(const tree::value_type& node, shared_iter->second)
+        BOOST_FOREACH(const tree::value_type& node, default_iter->second)
         {
             const std::string node_name = boost::to_lower_copy(node.first);
             if(node_name == INSTANCE_NODE_NAME)
                 throw config_error(str(
-                    boost::format("config source '%1%' is invalid: '" SHARED_NODE_NAME "' node can not contain '%2%' node") %
+                    boost::format("config source '%1%' is invalid: '" DEFAULT_NODE_NAME "' node can not contain '%2%' node") %
                     source_name_ %
                     node.first));
         }
     }
-    void check_no_direct_shared_attributes() const
+    void check_no_direct_default_attributes() const
     {
         const tree::value_type& config(root_.front());
-        const cassoc_tree_iter shared_iter = config.second.find(SHARED_NODE_NAME);
-        if(config.second.not_found() == shared_iter)
+        const cassoc_tree_iter default_iter = config.second.find(DEFAULT_NODE_NAME);
+        if(config.second.not_found() == default_iter)
             return;
-        BOOST_FOREACH(const tree::value_type& node, shared_iter->second)
+        BOOST_FOREACH(const tree::value_type& node, default_iter->second)
         {
             if(!node.second.data().empty())
                 throw config_error(str(
-                    boost::format("config source '%1%' is invalid: '" SHARED_NODE_NAME "' node can not contain direct properties. See '" SHARED_NODE_NAME ".%2%' property") %
+                    boost::format("config source '%1%' is invalid: '" DEFAULT_NODE_NAME "' node can not contain direct properties. See '" DEFAULT_NODE_NAME ".%2%' property") %
                     source_name_ %
                     node.first));
         }
@@ -204,7 +204,7 @@ private:
     }
     void check_no_instance_node_duplicates_impl(const std::string& app_name, const tree& app_node) const
     {
-        if(SHARED_NODE_NAME == app_name)//...in fact this is not an application node
+        if(DEFAULT_NODE_NAME == app_name)//...in fact this is not an application node
             return;
         if(app_node.count(INSTANCE_NODE_NAME) > 1)
             throw config_error(str(
@@ -214,7 +214,7 @@ private:
     }
     void check_no_instance_subnode_duplicates_impl(const std::string& app_name, const tree& app_node) const
     {
-        if(SHARED_NODE_NAME == app_name)//...in fact this is not an application node
+        if(DEFAULT_NODE_NAME == app_name)//...in fact this is not an application node
             return;
         const cassoc_tree_iter instance_iter = app_node.find(INSTANCE_NODE_NAME);
         if(app_node.not_found() == instance_iter)
@@ -300,13 +300,13 @@ void config_source::impl::process_raw_tree(config_source::file_name_style fname_
     
     const tree_validator validator(name(), root_);
     validator.check_no_data_in_config_node();
-    validator.check_o_data_in_shared_node();
+    validator.check_o_data_in_default_node();
     validator.check_no_data_in_app_and_instance_node();
     validator.check_tree_does_not_have_data_and_attribute_nodes();
-    validator.check_no_shared_node_duplicates();
-    validator.check_no_shared_subnode_duplicates();
-    validator.check_no_shared_instance_node();
-    validator.check_no_direct_shared_attributes();
+    validator.check_no_default_node_duplicates();
+    validator.check_no_default_subnode_duplicates();
+    validator.check_no_default_instance_node();
+    validator.check_no_direct_default_attributes();
     validator.check_no_app_node_duplicates();
     validator.check_no_instance_node_duplicates();
     validator.check_no_instance_subnode_duplicates();
@@ -400,10 +400,10 @@ void config_source::impl::normalize_keywords(
 tree_iter config_source::impl::normalize_keywords_impl(
     tree& parent, const tree_iter& child_iter, config_source::file_name_style fname_style) const
 {
-    if(SHARED_NODE_NAME == boost::to_lower_copy(child_iter->first))
+    if(DEFAULT_NODE_NAME == boost::to_lower_copy(child_iter->first))
     {
-        if(SHARED_NODE_NAME != child_iter->first)
-            return rename_node(parent, child_iter, SHARED_NODE_NAME);
+        if(DEFAULT_NODE_NAME != child_iter->first)
+            return rename_node(parent, child_iter, DEFAULT_NODE_NAME);
     }
     else
     {
@@ -472,9 +472,9 @@ tree_iter config_source::impl::normalize_instance_delimiter_impl(
                 "instance_name'") %
                 child_name %
                 name()));
-    if(boost::to_lower_copy(app_name) == SHARED_NODE_NAME)
+    if(boost::to_lower_copy(app_name) == DEFAULT_NODE_NAME)
         throw config_error(str(
-            boost::format("Shared node '%1%' can't have instance. Found in config source '%2%'") %
+            boost::format("Default node '%1%' can't have instance. Found in config source '%2%'") %
             child_name %
             name()));
     const tree_iter new_child_iter = find_or_insert_child(parent, child_iter, app_name);

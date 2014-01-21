@@ -82,7 +82,7 @@ public:
         if(!instance_name_.empty())
             config_->push_back(value_type(instance_name_, tree()));
         config_->push_back(value_type(app_name_, tree()));
-        config_->push_back(value_type(SHARED_NODE_NAME, tree()));
+        config_->push_back(value_type(DEFAULT_NODE_NAME, tree()));
     }
     const std::string& app_name() const { return app_name_; }
     const std::string& instance_name() const { return instance_name_; }
@@ -92,10 +92,10 @@ public:
             throw config_error(str(boost::format("config '%1%' is locked") % name()));
         const tree& other_config(source.get_root().front().second);
         
-        {//...merge shared attributes (if found)
-            const cassoc_tree_iter shared_iter = other_config.find(SHARED_NODE_NAME);
-            if(other_config.not_found() != shared_iter)
-                merge_processor(name(), source.name()).merge(get_shared_node(), shared_iter->second);
+        {//...merge default attributes (if found)
+            const cassoc_tree_iter default_iter = other_config.find(DEFAULT_NODE_NAME);
+            if(other_config.not_found() != default_iter)
+                merge_processor(name(), source.name()).merge(get_default_node(), default_iter->second);
         }
         const cassoc_tree_iter appIter = other_config.find(app_name());
         if(appIter == other_config.not_found())
@@ -119,16 +119,16 @@ public:
     {
         if(is_locked_)
             return;
-        //...merge self node and (optionally) instance node into shared node
-        merge_processor(ROOT_NODE_NAME NODE_DELIMITER SHARED_NODE_NAME, app_name()).merge(
-            get_shared_node(), get_self_node());
+        //...merge self node and (optionally) instance node into default node
+        merge_processor(ROOT_NODE_NAME NODE_DELIMITER DEFAULT_NODE_NAME, app_name()).merge(
+            get_default_node(), get_self_node());
         if(!instance_name().empty())
-            merge_processor(ROOT_NODE_NAME NODE_DELIMITER SHARED_NODE_NAME, name()).merge(
-                get_shared_node(), getInstanceNode());
-        //...swap self node and shared node to move result into self node
-        get_shared_node().swap(get_self_node());
-        //...erase shared and (optionally) instance node
-        config_->erase(SHARED_NODE_NAME);
+            merge_processor(ROOT_NODE_NAME NODE_DELIMITER DEFAULT_NODE_NAME, name()).merge(
+                get_default_node(), getInstanceNode());
+        //...swap self node and default node to move result into self node
+        get_default_node().swap(get_self_node());
+        //...erase default and (optionally) instance node
+        config_->erase(DEFAULT_NODE_NAME);
         config_->erase(instance_name());
         is_locked_ = true;
     }
@@ -224,11 +224,11 @@ private:
             return self;
         }
     }
-    tree& get_shared_node()
+    tree& get_default_node()
     {
         assert(!is_locked_);
-        tree& shared_node(config_->back().second);
-        return shared_node;
+        tree& default_node(config_->back().second);
+        return default_node;
     }
     //...
     const std::string app_name_, instance_name_;

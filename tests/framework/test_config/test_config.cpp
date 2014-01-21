@@ -166,11 +166,11 @@ TEST(config_source, app_config_invalid_data)
         "Invalid data node 'data' under 'app_name' node in config source 's1.xml'");
 }
 
-TEST(config_source, shared_config_invalid_data)
+TEST(config_source, default_config_invalid_data)
 {
     CONFIG_ERROR(
-        jet::config_source("<config><shared>data123</shared></config>", "s1.xml"),
-        "Invalid data node 'data123' under 'shared' node in config source 's1.xml'");
+        jet::config_source("<config><default>data123</default></config>", "s1.xml"),
+        "Invalid data node 'data123' under 'default' node in config source 's1.xml'");
 }
 
 TEST(config_source, instance_config_invalid_data)
@@ -199,11 +199,11 @@ TEST(config_source, duplicate_attr_config_source)
         "Duplicate definition of attribute 'config.attr' in config 'unknown'");
 }
 
-TEST(config_source, invalid_shared_node_with_instance)
+TEST(config_source, invalid_default_node_with_instance)
 {
     CONFIG_ERROR(
-        jet::config_source("<config><shared..i1><env PATH='/usr/bin'/></shared></config..i1>", "s1.xml"),
-        "Shared node 'shared..i1' can't have instance. Found in config source 's1.xml'");
+        jet::config_source("<config><default..i1><env PATH='/usr/bin'/></default></config..i1>", "s1.xml"),
+        "Default node 'default..i1' can't have instance. Found in config source 's1.xml'");
 }
 
 
@@ -212,29 +212,29 @@ TEST(config_source, invalid_duplicates)
     CONFIG_ERROR(
         jet::config_source(
             "<config>"
-            "   <shared><lib attr='value'/></shared>"
-            "   <shared><env PATH='/usr/bin'/></shared>"
+            "   <default><lib attr='value'/></default>"
+            "   <default><env PATH='/usr/bin'/></default>"
             "</config>",
             "s1.xml"),
-        "Duplicate shared node in config source 's1.xml'");
+        "Duplicate default node in config source 's1.xml'");
     CONFIG_ERROR(
         jet::config_source(
             "<config>"
-            "   <shared>"
+            "   <default>"
             "       <lib attr='value'/>"
             "       <lib attr2='value2'/>"
-            "   </shared>"
+            "   </default>"
             "</config>",
             "s1.xml"),
-        "Duplicate shared node 'lib' in config source 's1.xml'");
+        "Duplicate default node 'lib' in config source 's1.xml'");
     CONFIG_ERROR(
         jet::config_source(
-            "   <shared>"
+            "   <default>"
             "       <lib attr='value'/>"
             "       <lib attr2='value2'/>"
-            "   </shared>",
+            "   </default>",
             "s1.xml"),
-        "Duplicate shared node 'lib' in config source 's1.xml'");
+        "Duplicate default node 'lib' in config source 's1.xml'");
     CONFIG_ERROR(
         jet::config_source(
             "<config>"
@@ -294,12 +294,12 @@ TEST(config_source, normalize_keywords)
 {
     EXPECT_EQ(jet::config_source("<config/>").to_string(), "<config/>\n");
     EXPECT_EQ(
-        jet::config_source("<Shared/>").to_string(jet::config_source::one_line),
-        "<config><shared/></config>");
+        jet::config_source("<Default/>").to_string(jet::config_source::one_line),
+        "<config><default/></config>");
     EXPECT_EQ(
         jet::config_source(
-            "<config><Shared/></config>").to_string(jet::config_source::one_line),
-        "<config><shared/></config>");
+            "<config><Default/></config>").to_string(jet::config_source::one_line),
+        "<config><default/></config>");
     EXPECT_EQ(
         jet::config_source(
             "<app><Instance><i1/></Instance></app>"
@@ -323,40 +323,40 @@ TEST(config_source, normalize_keywords)
         "<config><app/></config>");
 }
 
-TEST(config_source, prohibited_simple_shared_attributes)
-{//...this is to prevent situation when shared attributes are treated as default values for simple attributes in application config
+TEST(config_source, prohibited_simple_default_attributes)
+{//...this is to prevent situation when default attributes are treated as default values for simple attributes in application config
     CONFIG_ERROR(
         jet::config_source(
-            "<shared attr1='value1'>\n"
+            "<default attr1='value1'>\n"
             "   <attr2>value2</attr2>\n"
-            "</shared>",
+            "</default>",
             "s1.xml"),
-        "config source 's1.xml' is invalid: 'shared' node can not contain direct properties. See 'shared.attr1' property");
+        "config source 's1.xml' is invalid: 'default' node can not contain direct properties. See 'default.attr1' property");
 }
 
-TEST(config_source, prohibited_instance_subsection_in_shared_section)
+TEST(config_source, prohibited_instance_subsection_in_default_section)
 {//...not allowed because 'instance' is keyword
     CONFIG_ERROR(
         jet::config_source(
-            "<shared>\n"
+            "<default>\n"
             "   <Instance attr='value'/>\n"
-            "</shared>",
+            "</default>",
             "s1.xml"),
-        "config source 's1.xml' is invalid: 'shared' node can not contain 'Instance' node");
+        "config source 's1.xml' is invalid: 'default' node can not contain 'Instance' node");
 }
 
-TEST(config, shared_attr_config_without_root_config_element)
+TEST(config, default_attr_config_without_root_config_element)
 {
-    const jet::config_source shared(
-        "<shared>\n"
+    const jet::config_source default_source(
+        "<default>\n"
         "   <libName strAttr='value' intAttr='12'>\n"
         "       <doubleAttr>13.2</doubleAttr>\n"
         "       <subKey attr='value'/>\n"
         "   </libName>\n"
-        "</shared>\n",
-        "shared.xml");
+        "</default>\n",
+        "default.xml");
     jet::config config("app_name");
-    config << shared << jet::lock;
+    config << default_source << jet::lock;
     EXPECT_EQ(std::string("app_name"), config.name());
     EXPECT_EQ("value",   config.get("libName.strAttr "));
     EXPECT_EQ("value",   config.get<std::string>(" libName.strAttr"));
@@ -476,10 +476,10 @@ TEST(config, getters)
 TEST(config, initialization)
 {
     const jet::config_source s1(
-        "<app str='value1' int='10'/><app..1><lib attr1='0s1'/></app..1><app2 attr='value'/><shared><lib attr1='1s1' attr2='2s1'/></shared>",
+        "<app str='value1' int='10'/><app..1><lib attr1='0s1'/></app..1><app2 attr='value'/><default><lib attr1='1s1' attr2='2s1'/></default>",
         "s1.xml");
     const jet::config_source s2(
-        "<config><app..1 str='value2' float='10.'/><shared><lib attr1='1s2'/></shared></config>",
+        "<config><app..1 str='value2' float='10.'/><default><lib attr1='1s2'/></default></config>",
         "s2.xml");
 
     jet::config config("app", "1");
@@ -500,12 +500,12 @@ TEST(config, initialization)
     <str>value1</str>\n\
     <int>10</int>\n\
   </app>\n\
-  <shared>\n\
+  <default>\n\
     <lib>\n\
       <attr1>1s2</attr1>\n\
       <attr2>2s1</attr2>\n\
     </lib>\n\
-  </shared>\n\
+  </default>\n\
 </config>\n";
 
         std::stringstream strm;
@@ -756,7 +756,7 @@ TEST(config, repeating_node_merge_with_conflicts2)
 /*
     Currently JetConfig support merge of different config source with some inconvenient limitations.
     TODO list which addresses this issue:
-1. Shared handling
+1. Default handling
 Default shared configuration is under <default>:
 <default>
 </default>

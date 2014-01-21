@@ -12,7 +12,7 @@
 #include <boost/property_tree/ptree.hpp>
 
 #define ROOT_NODE_NAME     "config"
-#define SHARED_NODE_NAME   "shared"
+#define DEFAULT_NODE_NAME   "default"
 #define INSTANCE_NODE_NAME "instance"
 #define INSTANCE_DELIMITER ".."
 #define NODE_DELIMITER "."
