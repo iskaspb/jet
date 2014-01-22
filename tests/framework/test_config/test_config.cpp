@@ -152,6 +152,72 @@ TEST(config_source, complex_config_source)
         source.to_string());
 }
 
+TEST(config_source, naive_config_source)
+{
+    const jet::config_source source(
+        jet::config_source::create_naive(
+            "attr1=value1:attr2=value2:attr3.attr4=value4:attr3.attr5=value5", "app"));
+    EXPECT_EQ("attr1=value1:attr2=value2:attr3.attr4=value4:attr3.attr5=value5", source.name());
+    EXPECT_EQ(
+        "<config>\n"
+        "  <app>\n"
+        "    <attr1>value1</attr1>\n"
+        "    <attr2>value2</attr2>\n"
+        "    <attr3>\n"
+        "      <attr4>value4</attr4>\n"
+        "      <attr5>value5</attr5>\n"
+        "    </attr3>\n"
+        "  </app>\n"
+        "</config>\n",
+        source.to_string());
+}
+
+TEST(config_source, naive_config_source_instance)
+{
+    const jet::config_source source(
+        jet::config_source::create_naive(
+            "attr1=value1", "app.exe", "i1"));
+    EXPECT_EQ(
+        "<config>\n"
+        "  <app.exe>\n"
+        "    <instance>\n"
+        "      <i1>\n"
+        "        <attr1>value1</attr1>\n"
+        "      </i1>\n"
+        "    </instance>\n"
+        "  </app.exe>\n"
+        "</config>\n",
+        source.to_string());
+}
+
+TEST(config_source, invalid_naive_instance_config)
+{
+    CONFIG_ERROR(
+        jet::config_source::create_naive("attr1", "app"),
+        "Invalid property 'attr1' in config source 'attr1'");
+    CONFIG_ERROR(
+        jet::config_source::create_naive("attr1=", "app"),
+        "Invalid property 'attr1=' in config source 'attr1='");
+    CONFIG_ERROR(
+        jet::config_source::create_naive("=value", "app"),
+        "Invalid property '=value' in config source '=value'");
+    CONFIG_ERROR(
+        jet::config_source::create_naive("=", "app"),
+        "Invalid property '=' in config source '='");
+    CONFIG_ERROR(
+        jet::config_source::create_naive("==", "app"),
+        "Invalid property '==' in config source '=='");
+    CONFIG_ERROR(
+        jet::config_source::create_naive("1=2=3", "app"),
+        "Invalid property '1=2=3' in config source '1=2=3'");
+    CONFIG_ERROR(
+        jet::config_source::create_naive("range=2:3", "app"),
+        "Invalid property '3' in config source 'range=2:3'");
+    CONFIG_ERROR(
+        jet::config_source::create_naive("attr=value", ""),
+        "Empty application name. Couldn't create configuration from 'attr=value'");
+}
+
 TEST(config_source, system_config_invalid_data)
 {
     CONFIG_ERROR(

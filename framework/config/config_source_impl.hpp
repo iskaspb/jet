@@ -12,7 +12,7 @@
 #include <boost/property_tree/ptree.hpp>
 
 #define ROOT_NODE_NAME     "config"
-#define DEFAULT_NODE_NAME   "default"
+#define DEFAULT_NODE_NAME  "default"
 #define INSTANCE_NODE_NAME "instance"
 #define INSTANCE_DELIMITER ".."
 #define NODE_DELIMITER "."
@@ -31,6 +31,10 @@ public:
     impl(
         const std::string& filename,
         config_source::input_format format,
+        config_source::file_name_style fname_style);
+    impl(
+        const boost::property_tree::ptree& root,
+        const std::string& name,
         config_source::file_name_style fname_style);
     std::string to_string(bool pretty) const;
     const std::string& name() const { return name_; }

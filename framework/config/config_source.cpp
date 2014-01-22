@@ -10,6 +10,9 @@
 #include <boost/property_tree/xml_parser.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/noncopyable.hpp>
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/trim.hpp>
+#include <boost/make_shared.hpp>
 #include <boost/foreach.hpp>
 #include <boost/format.hpp>
 
@@ -62,7 +65,7 @@ public:
                 prune_string(config.second.data()) %
                 source_name_));
     }
-    void check_o_data_in_default_node() const
+    void check_no_data_in_default_node() const
     {
         const tree::value_type& config(root_.front());
         const cassoc_tree_iter default_iter = config.second.find(DEFAULT_NODE_NAME);
@@ -288,6 +291,16 @@ config_source::impl::impl(
     process_raw_tree(fname_style);
 }
 
+config_source::impl::impl(
+    const boost::property_tree::ptree& root,
+    const std::string& name,
+    config_source::file_name_style fname_style):
+    root_(root),
+    name_(name)
+{
+    process_raw_tree(fname_style);
+}
+
 void config_source::impl::process_raw_tree(config_source::file_name_style fname_style)
 {
     if (root_.empty())
@@ -300,7 +313,7 @@ void config_source::impl::process_raw_tree(config_source::file_name_style fname_
     
     const tree_validator validator(name(), root_);
     validator.check_no_data_in_config_node();
-    validator.check_o_data_in_default_node();
+    validator.check_no_data_in_default_node();
     validator.check_no_data_in_app_and_instance_node();
     validator.check_tree_does_not_have_data_and_attribute_nodes();
     validator.check_no_default_node_duplicates();
@@ -577,6 +590,70 @@ catch(const PT::ptree_error& ex)
                 "Couldn't stringify config '%1%'. Reason: %2%") %
                 impl_->name() %
                 ex.what()));
+}
+
+config_source config_source::create_naive(
+    const std::string& source,
+    const std::string& app_name,
+    const std::string& instance_name) try
+{
+    tree root;
+    if(app_name.empty())
+        throw config_error(str(
+            boost::format("Empty application name. Couldn't create configuration from '%1%'") %
+            source));
+    {//...prepare configuration tree
+        const tree_iter app_node_iter =
+            root.insert(root.begin(), tree::value_type(app_name, tree()));
+
+        tree& config = instance_name.empty()?
+            app_node_iter->second:
+            app_node_iter->second.put(
+                INSTANCE_NODE_NAME NODE_DELIMITER + instance_name, std::string());
+
+        std::vector<std::string> properties;//TODO: define ':' and '=' as symbolic constants
+        boost::split(properties, source, boost::is_any_of(":"), boost::token_compress_on);
+        BOOST_FOREACH(std::string& property, properties)
+        {
+            boost::trim(property);
+            if(property.empty())
+                continue;
+            std::vector<std::string> name_value;
+            boost::split(name_value, property, boost::is_any_of("="));
+            if(name_value.size() != 2)
+                throw config_error(str(
+                    boost::format("Invalid property '%1%' in config source '%2%'") %
+                    property %
+                    source));
+            boost::trim(name_value[0]);
+            boost::trim(name_value[1]);
+            if(name_value[0].empty() || name_value[1].empty())
+                throw config_error(str(
+                    boost::format("Invalid property '%1%' in config source '%2%'") %
+                    property %
+                    source));
+            config.add(name_value[0], name_value[1]);
+        }
+    }
+    return config_source(boost::make_shared<impl>(root, source, config_source::case_sensitive));
+}
+catch(const config_error&)
+{
+    throw;
+}
+catch(const std::exception& ex)
+{
+    throw config_source(
+        boost::str(
+            boost::format(
+                "Couldn't create configuration from '%1%'. Reason: %2%") %
+                source %
+                ex.what()));
+}
+
+const std::string& config_source::name() const
+{
+    return impl_->name();
 }
 
 }//namespace jet

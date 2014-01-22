@@ -39,6 +39,10 @@ public:
         const std::string& filename,
         input_format format = xml,
         file_name_style = case_sensitive);
+    static config_source create_naive(
+        const std::string& source,
+        const std::string& app_name,
+        const std::string& instance_name = std::string());
     const std::string& name() const;
     std::string to_string(output_type type = pretty) const;
 private:
