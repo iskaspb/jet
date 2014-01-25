@@ -14,7 +14,7 @@
 namespace jet
 {
 
-class config_error: public std::exception
+class config_error: virtual public std::exception
 {
 public:
     explicit config_error(const std::string& msg): msg_(msg)

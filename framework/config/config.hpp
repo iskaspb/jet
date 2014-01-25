@@ -10,7 +10,6 @@
 
 #include "config_source.hpp"
 #include <boost/lexical_cast.hpp>
-#include <boost/noncopyable.hpp>
 #include <boost/optional.hpp>
 #include <vector>
 

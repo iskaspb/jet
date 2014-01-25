@@ -547,14 +547,10 @@ config_source::config_source(
 }
 catch(const PT::ptree_error& ex)
 {
-    const std::string msg(
-        std::string("Couldn't parse config. Reason: ") +
-        ex.what());
-    throw config_error(
-        boost::str(
-            boost::format("Couldn't parse config '%1%'. Reason: %2%") %
-            name %
-            ex.what()));
+    throw config_error(str(
+        boost::format("Couldn't parse config '%1%'. Reason: %2%") %
+        name %
+        ex.what()));
 }
 
 config_source::config_source(const boost::shared_ptr<impl>& impl): impl_(impl) {}
@@ -570,12 +566,11 @@ config_source config_source::create_from_file(
 }
 catch(const PT::ptree_error& ex)
 {
-    throw config_error(
-        boost::str(
-            boost::format(
-                "Couldn't parse config '%1%'. Reason: %2%") %
-                filename %
-                ex.what()));
+    throw config_error(str(
+        boost::format(
+            "Couldn't parse config '%1%'. Reason: %2%") %
+            filename %
+            ex.what()));
 }
 
 std::string config_source::to_string(output_type type) const try

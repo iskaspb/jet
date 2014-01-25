@@ -816,7 +816,6 @@ TEST(config, repeating_node_merge_with_conflicts2)
 //TODO: introduce proper boolean property
 //TODO: introduce "sequence of properties/elements" for repeating data
 //TODO: (SourceConfig) prohibit '.' separator everywhere except application name
-//TODO: add command line config source
 //TODO: add environment config source
 //TODO: Is there any good alternative to '..' instance shortcut separator?
 /*
