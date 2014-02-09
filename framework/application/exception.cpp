@@ -7,9 +7,28 @@
 //
 
 #include "exception.hpp"
+#include "demangle.hpp"
 
 namespace jet
 {
+
+const char* exception::location::remove_dir_from_path(const char* file)
+{//...trim long path
+    if(!file)
+        return file;
+    constexpr char separator =
+#ifdef _WIN32
+    '\'
+#else /*_WIN32*/
+    '/'
+#endif /*_WIN32*/
+    ;
+    const char* res = file;
+    while(const char ch = *file++)
+        if(separator == ch)
+            res = file;
+    return res;
+}
 
 std::ostream& operator<<(std::ostream& os, const exception& ex)
 {
@@ -26,10 +45,12 @@ std::ostream& operator<<(std::ostream& os, const exception::location& location)
 
 void exception::diagnostics(std::ostream& os) const
 {
-    os << "exception(" << typeid(*this).name() << ')';
-    char const * const msg = what();
-    if(msg && msg[0])
-        os << ": " << msg;
+    os << "exception(" << demangle(typeid(*this).name()) << ')';
+    {
+        char const * const msg = what();
+        if(msg && msg[0])
+            os << ": " << msg;
+    }
     if(location_.is_valid())
         os << " raised from " << location_;
     os << '\n';
@@ -45,7 +66,11 @@ void exception::diagnostics(std::ostream& os) const
         }
         catch(const std::exception& ex)
         {
-            os << "exception(" << typeid(ex).name() << "): " << ex.what() << '\n';
+            os << "exception(" << demangle(typeid(ex).name()) << ')';
+            char const * const msg = what();
+            if(msg && msg[0])
+                os << ": " << msg;
+            os << '\n';
         }
         catch(...)
         {

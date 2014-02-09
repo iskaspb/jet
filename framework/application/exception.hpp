@@ -25,9 +25,9 @@ public:
     class location
     {
     public:
-        location(): location{0, 0, 0} {}
+        location() {}
         location(const char* file, int line, const char* function):
-            file_{file},
+            file_{remove_dir_from_path(file)},
             line_{line},
             function_{function}
         {}
@@ -36,15 +36,17 @@ public:
         const char* function() const { return function_; }
         bool is_valid() const { return file_ && line_ && function_; }
     private:
-        const char* file_;
-        int line_;
-        const char* function_;
+        const char* remove_dir_from_path(const char* file);
+        //...
+        const char* file_{};
+        int line_{};
+        const char* function_{};
     };
     //...
     exception() {}
     explicit exception(
         const std::string& message,
-        const exception::location& location = exception::location()):
+        const exception::location& location = exception::location{}):
         message_{message},
         location_{location}
     {

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		FA5ECCFD1895601600B0F400 /* singleton_registry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA5ECCFB1895601600B0F400 /* singleton_registry.cpp */; };
 		FA98DF1A18A7C81E0009A960 /* exception.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA98DF1918A7C81E0009A960 /* exception.cpp */; };
+		FA98DF1D18A7D6370009A960 /* demangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA98DF1C18A7D6370009A960 /* demangle.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -17,6 +18,8 @@
 		FA5ECCFB1895601600B0F400 /* singleton_registry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = singleton_registry.cpp; sourceTree = "<group>"; };
 		FA98DF1818A77FB70009A960 /* exception.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = exception.hpp; sourceTree = "<group>"; };
 		FA98DF1918A7C81E0009A960 /* exception.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = exception.cpp; sourceTree = "<group>"; };
+		FA98DF1B18A7D5BE0009A960 /* demangle.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = demangle.hpp; sourceTree = "<group>"; };
+		FA98DF1C18A7D6370009A960 /* demangle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = demangle.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +36,8 @@
 		FA5ECCD518955DE500B0F400 = {
 			isa = PBXGroup;
 			children = (
+				FA98DF1C18A7D6370009A960 /* demangle.cpp */,
+				FA98DF1B18A7D5BE0009A960 /* demangle.hpp */,
 				FA98DF1918A7C81E0009A960 /* exception.cpp */,
 				FA98DF1818A77FB70009A960 /* exception.hpp */,
 				FA5ECCFB1895601600B0F400 /* singleton_registry.cpp */,
@@ -112,6 +117,7 @@
 			files = (
 				FA5ECCFD1895601600B0F400 /* singleton_registry.cpp in Sources */,
 				FA98DF1A18A7C81E0009A960 /* exception.cpp in Sources */,
+				FA98DF1D18A7D6370009A960 /* demangle.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
