@@ -4,8 +4,8 @@
 //  Created by Alexey Tkachenko on 1/9/13.
 //  This code belongs to public domain. You can do with it whatever you want without any guarantee.
 //
-#ifndef JET_CONFIG_GTEST_HEADER_GUARD
-#define JET_CONFIG_GTEST_HEADER_GUARD
+#ifndef JET_APPLICATION_GTEST_HEADER_GUARD
+#define JET_APPLICATION_GTEST_HEADER_GUARD
 
 #include <gtest/gtest.h>
 #include <string>
@@ -24,8 +24,5 @@
         EXPECT_EQ(message, exceptionMessage); \
     } \
 }
-
-#define CONFIG_ERROR(EXPRESSION, MESSAGE) \
-EXPECT_EXCEPTION(EXPRESSION, jet::config_error, MESSAGE);
 
 #endif /*JET_CONFIG_GTEST_HEADER_GUARD*/

@@ -13,6 +13,7 @@
 using std::cout;
 using std::endl;
 
+
 TEST(config_source, simple_config_source)
 {
     const jet::config_source source("<app> <attr> value</attr></app> ");
