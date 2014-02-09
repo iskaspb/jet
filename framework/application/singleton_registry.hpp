@@ -1,9 +1,9 @@
+// jet.application library
 //
-//  singleton_registry.hpp
-//
-//  Created by Alexey Tkachenko on 26/1/14.
-//  Copyright (c) 2014 Alexey Tkachenko. All rights reserved.
-//  This code belongs to public domain. You can do with it whatever you want without any guarantee.
+//  Copyright Alexey Tkachneko 2014. Use, modification and
+//  distribution is subject to the Boost Software License, Version
+//  1.0. (See accompanying file LICENSE_1_0.txt or copy at
+//  http://www.boost.org/LICENSE_1_0.txt)
 //
 
 #ifndef application_singleton_registry_hpp

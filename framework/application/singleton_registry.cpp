@@ -1,9 +1,10 @@
+// jet.application library
 //
-//  singleton_registry.cpp
-//  application
-//
-//  Created by Alexey Tkachenko on 26/1/14.
-//  Copyright (c) 2014 Alexey Tkachenko. All rights reserved.
+//  Copyright Alexey Tkachneko 2014. Use, modification and
+//  distribution is subject to the Boost Software License, Version
+//  1.0. (See accompanying file LICENSE_1_0.txt or copy at
+//  http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#include "singleton_registry.cpp"
+#include "singleton_registry.hpp"
+
