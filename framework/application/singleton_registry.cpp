@@ -6,4 +6,4 @@
 //  Copyright (c) 2014 Alexey Tkachenko. All rights reserved.
 //
 
-#include "singleton_registry.h"
+#include "singleton_registry.cpp"
