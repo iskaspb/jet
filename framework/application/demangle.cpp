@@ -13,10 +13,12 @@
 namespace jet
 {
 
-std::string demangle(const std::string& name)
+std::string demangle(const char* name)
 {
+    if(!name)
+        return std::string{};
     int status = 0;
-    char* const res = abi::__cxa_demangle(name.c_str(), 0, 0, &status);
+    char* const res = abi::__cxa_demangle(name, 0, 0, &status);
     if(!res)
         return name;
     try
