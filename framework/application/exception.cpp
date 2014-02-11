@@ -8,6 +8,7 @@
 
 #include "exception.hpp"
 #include "demangle.hpp"
+#include <sstream>
 
 namespace jet
 {
@@ -18,7 +19,7 @@ const char* exception::location::remove_dir_from_path(const char* file)
         return file;
     constexpr char separator =
 #ifdef _WIN32
-    '\'
+    '\\'
 #else /*_WIN32*/
     '/'
 #endif /*_WIN32*/
@@ -40,19 +41,21 @@ std::ostream& operator<<(std::ostream& os, const exception::location& location)
 {
     if(!location.is_valid())
         return os << "[unknown location]";
-    return os << "[function: " << location.function() << " at " << location.file() << ':' << location.line() << ']';
+    return os << '[' << location.function() << " @ " << location.file() << ':' << location.line() << ']';
 }
 
 void exception::diagnostics(std::ostream& os) const
 {
-    os << "exception(" << demangle(typeid(*this).name()) << ')';
+    os << demangle(typeid(*this).name()) << ": ";
     {
         char const * const msg = what();
         if(msg && msg[0])
-            os << ": " << msg;
+            os << msg;
+        else
+            os << "no message";
     }
     if(location_.is_valid())
-        os << " raised from " << location_;
+        os << ' ' << location_;
     os << '\n';
     if (nested_ != std::exception_ptr())
     {
@@ -66,10 +69,12 @@ void exception::diagnostics(std::ostream& os) const
         }
         catch(const std::exception& ex)
         {
-            os << "exception(" << demangle(typeid(ex).name()) << ')';
+            os << demangle(typeid(ex).name()) << ": ";
             char const * const msg = what();
             if(msg && msg[0])
-                os << ": " << msg;
+                os << msg;
+            else
+                os << "no message";
             os << '\n';
         }
         catch(...)

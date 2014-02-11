@@ -7,18 +7,21 @@
 //
 
 #include "demangle.hpp"
-#include <cxxabi.h>
 #include <cstdlib>
+#ifndef _WIN32
+#include <cxxabi.h>
+#endif /*_WIN32*/
 
 namespace jet
 {
 
-std::string demangle(const char* name)
+std::string demangle(const std::string& name)
 {
-    if(!name)
-        return std::string{};
+#ifdef _WIN32
+    return name;
+#else /*_WIN32*/
     int status = 0;
-    char* const res = abi::__cxa_demangle(name, 0, 0, &status);
+    char* const res = abi::__cxa_demangle(name.c_str(), 0, 0, &status);
     if(!res)
         return name;
     try
@@ -32,6 +35,7 @@ std::string demangle(const char* name)
         ::free(res);
         return name;
     }
+#endif /*_WIN32*/
 }
 
 }//namespace jet

@@ -13,7 +13,7 @@
 
 namespace jet
 {
-std::string demangle(const char* name);
+std::string demangle(const std::string& name);
 }//namespace jet
 
 #endif /*JET_APPLICATION_DEMANGLE_HEADER_GUARD*/
