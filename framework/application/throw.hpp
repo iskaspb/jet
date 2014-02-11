@@ -16,7 +16,7 @@ template<typename exception_type>
 inline void throw_exception [[noreturn]] (
     const std::string& message, const exception::location& location)
 {
-    exception_type ex;
+    exception_type ex{};
     ex.set_message(message);
     ex.set_location(location);
     throw ex;

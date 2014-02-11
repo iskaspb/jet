@@ -46,16 +46,17 @@ std::ostream& operator<<(std::ostream& os, const exception::location& location)
 
 void exception::diagnostics(std::ostream& os) const
 {
-    os << demangle(typeid(*this).name()) << ": ";
+    os << demangle(typeid(*this).name());
+    if(location_.is_valid())
+        os << location_;
     {
+        os << ": ";
         char const * const msg = what();
         if(msg && msg[0])
             os << msg;
         else
             os << "no message";
     }
-    if(location_.is_valid())
-        os << ' ' << location_;
     os << '\n';
     if (nested_ != std::exception_ptr())
     {

@@ -10,13 +10,15 @@
 #define JET_APPLICATION_EXCEPTION_HEADER_GUARD
 
 #include <exception>
+#include <typeindex>
 #include <string>
 #include <iosfwd>
+#include <vector>
+#include <tuple>
 
 namespace jet
 {
 //TODO: optional stacktrace
-//TODO: return parsed <type, message, location> diagnostics
 
 class exception: virtual public std::exception
 {
@@ -59,6 +61,7 @@ public:
 
     const char* what() const noexcept override { return message_.c_str(); }
     std::string diagnostics() const;
+    std::vector<std::tuple<std::type_index, location, std::string>> detailed_diagnostics() const;
 private:
     void diagnostics(std::ostream& os) const;
     static std::exception_ptr get_chained_exception();

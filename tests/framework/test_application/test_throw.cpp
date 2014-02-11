@@ -29,8 +29,8 @@ TEST(exception, naked_throw)
     }
     catch(const jet::exception& ex)
     {
-        EXPECT_EQ(ex.what(), std::string{});
-        EXPECT_EQ(ex.diagnostics(), "jet::exception: no message\n");
+        EXPECT_EQ(std::string{}, ex.what());
+        EXPECT_EQ("jet::exception: no message\n", ex.diagnostics());
     }
 }
 
@@ -42,8 +42,8 @@ TEST(exception, throw_with_message)
     }
     catch(const jet::exception& ex)
     {
-        EXPECT_EQ(ex.what(), std::string{"error message"});
-        EXPECT_EQ(ex.diagnostics(), "jet::exception: error message\n");
+        EXPECT_EQ(std::string{"error message"}, ex.what());
+        EXPECT_EQ("jet::exception: error message\n", ex.diagnostics());
     }
 }
 
@@ -55,7 +55,7 @@ TEST(exception, throw_with_complex_message)
     }
     catch(const std::exception& ex)
     {
-        EXPECT_EQ(ex.what(), std::string{"ONE 1, TWO 2"});
+        EXPECT_EQ(std::string{"ONE 1, TWO 2"}, ex.what());
     }
 }
 
@@ -68,10 +68,10 @@ TEST(exception, throw_with_location)
     }
     catch(const jet::exception& ex)
     {
-        EXPECT_EQ(ex.what(), std::string{"error message"});
+        EXPECT_EQ(std::string{"error message"}, ex.what());
         EXPECT_EQ(
-            ex.diagnostics(),
-            "jet::exception: error message [void throw_helper(const std::string &) @ test_throw.cpp:15]\n");
+            "jet::exception[void throw_helper(const std::string &) @ test_throw.cpp:15]: error message\n",
+            ex.diagnostics());
     }
 }
 
@@ -91,10 +91,10 @@ TEST(exception, chained_with_runtime_error)
     catch(const jet::exception& ex)
     {
         const auto expected =
-R"(jet::exception: error message [void throw_helper(const std::string &) @ test_throw.cpp:15]
+R"(jet::exception[void throw_helper(const std::string &) @ test_throw.cpp:15]: error message
 std::runtime_error: error message
 )";
-        EXPECT_EQ(ex.diagnostics(), expected);
+        EXPECT_EQ(expected, ex.diagnostics());
     }
 }
 
@@ -114,10 +114,10 @@ TEST(exception, chained_with_jet_exception)
     catch(const jet::exception& ex)
     {
         const auto expected =
-R"(jet::exception: error message [void throw_helper(const std::string &) @ test_throw.cpp:15]
-jet::exception: initial exception [void throw_helper(const std::string &) @ test_throw.cpp:15]
+R"(jet::exception[void throw_helper(const std::string &) @ test_throw.cpp:15]: error message
+jet::exception[void throw_helper(const std::string &) @ test_throw.cpp:15]: initial exception
 )";
-        EXPECT_EQ(ex.diagnostics(), expected);
+        EXPECT_EQ(expected, ex.diagnostics());
     }
 }
 
@@ -139,10 +139,10 @@ TEST(exception, chained_with_jet_exception_derived_exception)
     catch(const jet::exception& ex)
     {
         const auto expected =
-R"(jet::exception: error message [void throw_helper(const std::string &) @ test_throw.cpp:15]
-my_error: initial exception [void throw_helper_ex(const std::string &) [ex_type = my_error] @ test_throw.cpp:21]
+R"(jet::exception[void throw_helper(const std::string &) @ test_throw.cpp:15]: error message
+my_error[void throw_helper_ex(const std::string &) [ex_type = my_error] @ test_throw.cpp:21]: initial exception
 )";
-        EXPECT_EQ(ex.diagnostics(), expected);
+        EXPECT_EQ(expected, ex.diagnostics());
     }
 }
 
@@ -162,9 +162,9 @@ TEST(exception, chained_with_unknown_exception)
     catch(const jet::exception& ex)
     {
         const auto expected =
-R"(jet::exception: error message [void throw_helper(const std::string &) @ test_throw.cpp:15]
+R"(jet::exception[void throw_helper(const std::string &) @ test_throw.cpp:15]: error message
 unknown exception
 )";
-        EXPECT_EQ(ex.diagnostics(), expected);
+        EXPECT_EQ(expected, ex.diagnostics());
     }
 }
