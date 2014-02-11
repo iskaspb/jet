@@ -44,6 +44,7 @@ public:
         int line_{};
         const char* function_{};
     };
+    using details = std::tuple<std::type_index, location, const char*>;
     //...
     exception() {}
     explicit exception(
@@ -61,9 +62,10 @@ public:
 
     const char* what() const noexcept override { return message_.c_str(); }
     std::string diagnostics() const;
-    std::vector<std::tuple<std::type_index, location, std::string>> detailed_diagnostics() const;
+    std::vector<details> detailed_diagnostics() const;
 private:
     void diagnostics(std::ostream& os) const;
+    void populate_details(std::vector<details>& chained_details) const;
     static std::exception_ptr get_chained_exception();
     std::string message_;
     exception::location location_;

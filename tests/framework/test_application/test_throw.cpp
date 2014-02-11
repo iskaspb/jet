@@ -143,6 +143,7 @@ R"(jet::exception[void throw_helper(const std::string &) @ test_throw.cpp:15]: e
 my_error[void throw_helper_ex(const std::string &) [ex_type = my_error] @ test_throw.cpp:21]: initial exception
 )";
         EXPECT_EQ(expected, ex.diagnostics());
+        //TODO: add validation of detailed_diagnostics
     }
 }
 
@@ -166,5 +167,6 @@ R"(jet::exception[void throw_helper(const std::string &) @ test_throw.cpp:15]: e
 unknown exception
 )";
         EXPECT_EQ(expected, ex.diagnostics());
+        //TODO: add validation of detailed_diagnostics
     }
 }

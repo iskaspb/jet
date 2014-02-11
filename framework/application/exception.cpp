@@ -92,4 +92,49 @@ std::string exception::diagnostics() const
     return strm.str();
 }
 
+std::vector<exception::details> exception::detailed_diagnostics() const
+{
+    std::vector<details> chained_details;
+    populate_details(chained_details);
+    return chained_details;
+}
+
+struct unknown_exception {};
+
+void exception::populate_details(std::vector<details>& chained_details) const
+{
+    chained_details.push_back(
+        details{
+            std::type_index(typeid(*this)),
+            location_,
+            what()});
+    if (nested_ != std::exception_ptr())
+    {
+        try
+        {
+            std::rethrow_exception(nested_);
+        }
+        catch(const jet::exception& ex)
+        {
+            ex.populate_details(chained_details);
+        }
+        catch(const std::exception& ex)
+        {
+            chained_details.push_back(
+                details{
+                    std::type_index(typeid(ex)),
+                    location{},
+                    what()});
+        }
+        catch(...)
+        {
+            chained_details.push_back(
+                details{
+                    std::type_index(typeid(unknown_exception)),
+                    location{},
+                    (const char*)nullptr});
+        }
+    }
+}
+
 }//namespace jet
