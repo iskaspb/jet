@@ -7,7 +7,7 @@
 //
 
 #include "config_source_impl.hpp"
-#include "config_error.hpp"
+#include "config_throw.hpp"
 #include <boost/property_tree/exceptions.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 #include <boost/algorithm/string.hpp>
@@ -62,10 +62,9 @@ public:
     {
         const tree::value_type& config(root_.front());
         if(!config.second.data().empty())
-            throw config_error(str(
-                boost::format("Invalid data node '%1%' under '" ROOT_NODE_NAME "' node in config source '%2%'") %
-                prune_string(config.second.data()) %
-                source_name_));
+            JET_THROW_CFG()
+                << "Invalid data node '" << prune_string(config.second.data())
+                << "' under '" ROOT_NODE_NAME "' node in config source '" << source_name_ << '\'';
     }
     void check_no_data_in_default_node() const
     {
@@ -74,10 +73,9 @@ public:
         if(config.second.not_found() == default_iter)
             return;
         if(!default_iter->second.data().empty())
-            throw config_error(str(
-                boost::format("Invalid data node '%1%' under '" DEFAULT_NODE_NAME "' node in config source '%2%'") %
-                prune_string(default_iter->second.data()) %
-                source_name_));
+            JET_THROW_CFG()
+                << "Invalid data node '" << prune_string(default_iter->second.data())
+                << "' under '" DEFAULT_NODE_NAME "' node in config source '" << source_name_ << '\'';
     }
     void check_no_data_in_app_and_instance_node() const
     {
@@ -87,11 +85,9 @@ public:
             if(DEFAULT_NODE_NAME == app_node.first)
                 continue;
             if(!app_node.second.data().empty())
-                throw config_error(str(
-                    boost::format("Invalid data node '%1%' under '%2%' node in config source '%3%'") %
-                    prune_string(app_node.second.data()) %
-                    app_node.first %
-                    source_name_));
+                JET_THROW_CFG()
+                    << "Invalid data node '" << prune_string(app_node.second.data())
+                    << "' under '" << app_node.first << "' node in config source '" << source_name_ << '\'';
             const cassoc_tree_iter instance_iter = app_node.second.find(INSTANCE_NODE_NAME);
             if(app_node.second.not_found() == instance_iter)
                 continue;
@@ -102,11 +98,10 @@ public:
                     std::string instance_name(app_node.first);
                     instance_name += INSTANCE_DELIMITER;
                     instance_name += instanceNode.first;
-                    throw config_error(str(
-                        boost::format("Invalid data node '%1%' under '%2%' node in config source '%3%'") %
-                        prune_string(instanceNode.second.data()) %
-                        instance_name %
-                        source_name_));
+                    JET_THROW_CFG()
+                        << "Invalid data node '" << prune_string(instanceNode.second.data())
+                        << "' under '" << instance_name << "' node in config source '"
+                        << source_name_ << '\'';
                 }
             }
         }
@@ -115,8 +110,8 @@ public:
     {
         const tree::value_type& config(root_.front());
         if(config.second.count(DEFAULT_NODE_NAME) > 1)
-            throw config_error(str(
-                boost::format("Duplicate default node in config source '%1%'") % source_name_));
+            JET_THROW_CFG()
+                << "Duplicate default node in config source '" << source_name_ << '\'';
     }
     void check_no_default_subnode_duplicates() const
     {
@@ -128,10 +123,9 @@ public:
         BOOST_FOREACH(const tree::value_type& default_child, default_iter->second)
         {
             if(default_iter->second.count(default_child.first) > 1)
-                throw config_error(str(
-                    boost::format("Duplicate default node '%1%' in config source '%2%'") %
-                    default_child.first %
-                    source_name_));
+                JET_THROW_CFG()
+                    << "Duplicate default node '" << default_child.first
+                    << "' in config source '" << source_name_ << '\'';
         }
     }
     void check_no_default_instance_node() const
@@ -144,10 +138,10 @@ public:
         {
             const std::string node_name = boost::to_lower_copy(node.first);
             if(node_name == INSTANCE_NODE_NAME)
-                throw config_error(str(
-                    boost::format("config source '%1%' is invalid: '" DEFAULT_NODE_NAME "' node can not contain '%2%' node") %
-                    source_name_ %
-                    node.first));
+                JET_THROW_CFG()
+                    << "config source '" << source_name_
+                    << "' is invalid: '" DEFAULT_NODE_NAME "' node can not contain '"
+                    << node.first<< "' node";
         }
     }
     void check_no_direct_default_attributes() const
@@ -159,10 +153,11 @@ public:
         BOOST_FOREACH(const tree::value_type& node, default_iter->second)
         {
             if(!node.second.data().empty())
-                throw config_error(str(
-                    boost::format("config source '%1%' is invalid: '" DEFAULT_NODE_NAME "' node can not contain direct properties. See '" DEFAULT_NODE_NAME ".%2%' property") %
-                    source_name_ %
-                    node.first));
+                JET_THROW_CFG()
+                    << "config source '" << source_name_
+                    << "' is invalid: '" DEFAULT_NODE_NAME
+                    "' node can not contain direct properties. See '" DEFAULT_NODE_NAME "."
+                    << node.first << "' property";
         }
     }
     void check_no_app_node_duplicates() const
@@ -171,10 +166,9 @@ public:
         BOOST_FOREACH(const tree::value_type& node, config.second)
         {
             if(config.second.count(node.first) > 1)
-                throw config_error(str(
-                    boost::format("Duplicate node '%1%' in config source '%2%'") %
-                    node.first %
-                    source_name_));
+                JET_THROW_CFG()
+                    << "Duplicate node '" << node.first
+                    << "' in config source '" << source_name_ << '\'';
         }
     }
     void check_no_instance_node_duplicates() const
@@ -197,10 +191,10 @@ private:
     void check_node_does_not_have_data_and_attribute(const path& current_path, const tree& tree) const
     {
         if(!tree.empty() && !tree.data().empty())
-            throw config_error(str(
-                boost::format("Invalid element '%1%' in config source '%2%' contains both value and child attributes") %
-                current_path.dump() %
-                source_name_));
+            JET_THROW_CFG()
+                << "Invalid element '" << current_path.dump()
+                << "' in config source '" << source_name_
+                << "' contains both value and child attributes";
         BOOST_FOREACH(const tree::value_type& node, tree)
         {
             const path node_path(current_path/path(node.first));
@@ -212,10 +206,9 @@ private:
         if(DEFAULT_NODE_NAME == app_name)//...in fact this is not an application node
             return;
         if(app_node.count(INSTANCE_NODE_NAME) > 1)
-            throw config_error(str(
-                boost::format("Duplicate " INSTANCE_NODE_NAME " node under '%1%' node in config source '%2%'") %
-                app_name %
-                source_name_));
+            JET_THROW_CFG()
+                << "Duplicate " INSTANCE_NODE_NAME " node under '" << app_name
+                << "' node in config source '" << source_name_ << '\'';
     }
     void check_no_instance_subnode_duplicates_impl(const std::string& app_name, const tree& app_node) const
     {
@@ -231,10 +224,9 @@ private:
                 std::string instance_name(app_name);
                 instance_name += INSTANCE_DELIMITER;
                 instance_name += instance_subnode.first;
-                throw config_error(str(
-                    boost::format("Duplicate node '%1%' in config source '%2%'") %
-                    instance_name %
-                    source_name_));
+                JET_THROW_CFG()
+                    << "Duplicate node '" << instance_name << "' in config source '"
+                    << source_name_ << '\'';
             }
         }
     }
@@ -261,10 +253,7 @@ config_source::impl::impl(
             normalize_xml_attributes(root_);
             break;
         default:
-            config_error(
-                boost::str(
-                    boost::format("Parsing of config format %1% is not implemented") %
-                    format));
+            JET_THROW_CFG() << "Parsing of config format " << format << " is not implemented";
     }
     process_raw_tree(fname_style);
 }
@@ -285,10 +274,7 @@ config_source::impl::impl(
             normalize_xml_attributes(root_);
             break;
         default:
-            config_error(
-                boost::str(
-                    boost::format("Parsing of config format %1% is not implemented") %
-                    format));
+            JET_THROW_CFG() << "Parsing of config format " << format << " is not implemented";
     }
     process_raw_tree(fname_style);
 }
@@ -306,8 +292,7 @@ config_source::impl::impl(
 void config_source::impl::process_raw_tree(config_source::file_name_style fname_style)
 {
     if (root_.empty())
-        throw config_source(str(
-            boost::format("config source '%1%' is empty") % name()));
+        JET_THROW_CFG() << "config source '" << name() << "' is empty";
 
     normalize_root_node(root_);
     normalize_keywords(root_, fname_style);
@@ -345,8 +330,7 @@ std::string config_source::impl::to_string(bool pretty) const
 void config_source::impl::normalize_xml_attributes(tree& raw_tree) const
 {
     if (raw_tree.empty())
-        throw config_source(str(
-            boost::format("config source '%1%' is empty") % name()));
+        JET_THROW_CFG() << "config source '" << name() << "' is empty";
     
     normalize_xml_attributes_impl(path(), raw_tree);
 }
@@ -377,9 +361,9 @@ void config_source::impl::normalize_root_node(tree& raw_tree) const
     {
         const std::string& child_name = child.first;
         if(ROOT_NODE_NAME == boost::to_lower_copy(child_name))
-            throw config_error(str(
-                boost::format("Invalid config source '%1%'. '" ROOT_NODE_NAME "' must be root node") %
-                name()));
+            JET_THROW_CFG()
+                << "Invalid config source '" << name()
+                << "'. '" ROOT_NODE_NAME "' must be root node";
     }
     tree newTree;
     newTree.push_back(tree::value_type(ROOT_NODE_NAME, tree()));
@@ -478,29 +462,21 @@ tree_iter config_source::impl::normalize_instance_delimiter_impl(
     const std::string app_name(child_name.substr(0, pos));
     const std::string instance_name(child_name.substr(pos + sizeof(INSTANCE_DELIMITER) - 1));
     if(app_name.empty() || instance_name.empty())
-        throw config_error(str(
-            boost::format(
-                "Invalid '"
-                INSTANCE_DELIMITER
-                "' in element '%1%' in config source '%2%'. Expected format 'app_name"
-                INSTANCE_DELIMITER
-                "instance_name'") %
-                child_name %
-                name()));
+        JET_THROW_CFG()
+            << "Invalid '" INSTANCE_DELIMITER "' in element '" << child_name
+            << "' in config source '" << name()
+            << "'. Expected format 'app_name" INSTANCE_DELIMITER "instance_name'";
     if(boost::to_lower_copy(app_name) == DEFAULT_NODE_NAME)
-        throw config_error(str(
-            boost::format("Default node '%1%' can't have instance. Found in config source '%2%'") %
-            child_name %
-            name()));
+        JET_THROW_CFG()
+            << "Default node '" << child_name
+            << "' can't have instance. Found in config source '" << name() << '\'';
     const tree_iter new_child_iter = find_or_insert_child(parent, child_iter, app_name);
     const tree_iter grand_child_iter = find_or_insert_child(
         new_child_iter->second, new_child_iter->second.end(), INSTANCE_NODE_NAME);
     const assoc_tree_iter grand_grand_child_iter = grand_child_iter->second.find(instance_name);
     if(grand_grand_child_iter != grand_child_iter->second.not_found())
-        throw config_error(str(
-            boost::format("Duplicate node '%1%' in config source '%2%'") %
-            child_name %
-            name()));
+        JET_THROW_CFG()
+            << "Duplicate node '" << child_name << "' in config source '" << name() << '\'';
     child_iter->second.swap(
         grand_child_iter->second.push_back(
             tree::value_type(instance_name, tree()))->second);
@@ -513,10 +489,9 @@ void config_source::impl::copy_unique_children(const path& current_path, const t
     BOOST_REVERSE_FOREACH(const tree::value_type& node, from)
     {
         if(from.count(node.first) > 1)
-            throw config_error(str(
-                boost::format("Duplicate definition of attribute '%1%' in config '%2%'") %
-                    (current_path/path(node.first)).dump() %
-                    name()));
+            JET_THROW_CFG()
+                << "Duplicate definition of attribute '" << (current_path/path(node.first)).dump()
+                << "' in config '" << name() << '\'';
         to.push_front(node);
     }
 }
@@ -533,10 +508,8 @@ config_source::config_source(
 }
 catch(const PT::ptree_error& ex)
 {
-    throw config_error(str(
-        boost::format("Couldn't parse config '%1%'. Reason: %2%") %
-        name %
-        ex.what()));
+    JET_THROW_CFG()
+        << "Couldn't parse config '" << name << "'. Reason: " << ex.what();
 }
 
 config_source::config_source(
@@ -549,10 +522,8 @@ config_source::config_source(
 }
 catch(const PT::ptree_error& ex)
 {
-    throw config_error(str(
-        boost::format("Couldn't parse config '%1%'. Reason: %2%") %
-        name %
-        ex.what()));
+    JET_THROW_CFG()
+        << "Couldn't parse config '" << name << "'. Reason: " << ex.what();
 }
 
 config_source::config_source(const boost::shared_ptr<impl>& impl): impl_(impl) {}
@@ -568,11 +539,8 @@ config_source config_source::create_from_file(
 }
 catch(const PT::ptree_error& ex)
 {
-    throw config_error(str(
-        boost::format(
-            "Couldn't parse config '%1%'. Reason: %2%") %
-            filename %
-            ex.what()));
+    JET_THROW_CFG()
+        << "Couldn't parse config '" << filename << "'. Reason: " << ex.what();
 }
 
 std::string config_source::to_string(output_type type) const try
@@ -581,12 +549,9 @@ std::string config_source::to_string(output_type type) const try
 }
 catch(const PT::ptree_error& ex)
 {
-    throw config_source(
-        boost::str(
-            boost::format(
-                "Couldn't stringify config '%1%'. Reason: %2%") %
-                impl_->name() %
-                ex.what()));
+    JET_THROW_CFG()
+        << "Couldn't stringify config '" << impl_->name()
+        << "'. Reason: " << ex.what();
 }
 
 config_source config_source::create_naive(
@@ -596,9 +561,8 @@ config_source config_source::create_naive(
 {
     tree root;
     if(app_name.empty())
-        throw config_error(str(
-            boost::format("Empty application name. Couldn't create configuration from '%1%'") %
-            source));
+        JET_THROW_CFG()
+            << "Empty application name. Couldn't create configuration from '" << source << '\'';
     {//...prepare configuration tree
         const tree_iter app_node_iter =
             root.insert(root.begin(), tree::value_type(app_name, tree()));
@@ -618,17 +582,13 @@ config_source config_source::create_naive(
             std::vector<std::string> name_value;
             boost::split(name_value, property, boost::is_any_of("="));
             if(name_value.size() != 2)
-                throw config_error(str(
-                    boost::format("Invalid property '%1%' in config source '%2%'") %
-                    property %
-                    source));
+                JET_THROW_CFG()
+                    << "Invalid property '" << property << "' in config source '" << source << '\'';
             boost::trim(name_value[0]);
             boost::trim(name_value[1]);
             if(name_value[0].empty() || name_value[1].empty())
-                throw config_error(str(
-                    boost::format("Invalid property '%1%' in config source '%2%'") %
-                    property %
-                    source));
+                JET_THROW_CFG()
+                    << "Invalid property '" << property << "' in config source '" << source << '\'';
             config.add(name_value[0], name_value[1]);
         }
     }
@@ -640,12 +600,8 @@ catch(const config_error&)
 }
 catch(const std::exception& ex)
 {
-    throw config_source(
-        boost::str(
-            boost::format(
-                "Couldn't create configuration from '%1%'. Reason: %2%") %
-                source %
-                ex.what()));
+    JET_THROW_CFG()
+        << "Couldn't create configuration from '" << source << "'. Reason: " << ex.what();
 }
 
 const std::string& config_source::name() const

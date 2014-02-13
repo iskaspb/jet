@@ -55,7 +55,7 @@ protected:
     void lock();
     void print(std::ostream& os) const;
 private:
-    void throw_value_conversion_error(const std::string& attr_name, const std::string& value) const;
+    void throw_value_conversion_error[[noreturn]](const std::string& attr_name, const std::string& value) const;
     friend std::ostream& operator<<(std::ostream& os, const config_node& config);
     //...
     std::string path_;
@@ -92,7 +92,6 @@ inline T config_node::get(const std::string& attr_name) const
     catch(const boost::bad_lexical_cast&)
     {
         throw_value_conversion_error(attr_name, value);
-        throw;
     }
 }
 
@@ -109,7 +108,6 @@ inline boost::optional<T> config_node::get_optional(const std::string& attr_name
     catch(const boost::bad_lexical_cast&)
     {
         throw_value_conversion_error(attr_name, *value);
-        throw;
     }
 }
 
@@ -126,7 +124,6 @@ inline T config_node::get(const std::string& attr_name, const T& default_value) 
     catch(const boost::bad_lexical_cast&)
     {
         throw_value_conversion_error(attr_name, *value);
-        throw;
     }
 }
 

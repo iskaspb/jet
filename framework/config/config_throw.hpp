@@ -6,16 +6,12 @@
 //  http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#ifndef JET_CONFIG_CONFIG_ERROR_HEADER_GUARD
-#define JET_CONFIG_CONFIG_ERROR_HEADER_GUARD
+#ifndef JET_CONFIG_CONFIG_THROW_HEADER_GUARD
+#define JET_CONFIG_CONFIG_THROW_HEADER_GUARD
 
-#include "application/exception.hpp"
+#include "application/throw.hpp"
+#include "config_error.hpp"
 
-namespace jet
-{
+#define JET_THROW_CFG() JET_THROW_EX(::jet::config_error)
 
-struct config_error: virtual jet::exception {};
-
-}//namespace jet
-
-#endif //JET_CONFIG_CONFIG_ERROR_HEADER_GUARD
+#endif /*JET_CONFIG_CONFIG_THROW_HEADER_GUARD*/

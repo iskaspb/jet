@@ -30,7 +30,7 @@ TEST(config_source, empty_config_source)
             source.to_string());
     }
     CONFIG_ERROR(jet::config_source("  "),
-        "Couldn't parse config 'unknown'. Reason:");
+        "config source 'unknown' is empty");
 }
 
 TEST(config_source, invalid_config_source)

@@ -160,6 +160,7 @@
 					"-lgtest",
 					"-lgtest_main",
 					"-ljet_config",
+					"-ljet_application",
 				);
 				SDKROOT = macosx;
 			};
@@ -203,6 +204,7 @@
 					"-lgtest",
 					"-lgtest_main",
 					"-ljet_config",
+					"-ljet_application",
 				);
 				SDKROOT = macosx;
 			};

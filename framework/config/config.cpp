@@ -8,7 +8,7 @@
 
 #include "config.hpp"
 #include "config_source_impl.hpp"
-#include "config_error.hpp"
+#include "config_throw.hpp"
 #include <boost/property_tree/exceptions.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 #include <boost/algorithm/string.hpp>
@@ -77,7 +77,7 @@ public:
         config_(0)
     {
         if(app_name_.empty())
-            throw config_error("Empty config name");
+            JET_THROW_CFG() << "Empty config name";
         root_.push_back(value_type(ROOT_NODE_NAME, tree()));
         config_ = &root_.front().second;
         if(!instance_name_.empty())
@@ -90,7 +90,7 @@ public:
     void merge(const config_source::impl& source)
     {
         if(is_locked_)
-            throw config_error(str(boost::format("config '%1%' is locked") % name()));
+            JET_THROW_CFG() << "config '" << name() << "' is locked";
         const tree& other_config(source.get_root().front().second);
         
         {//...merge default attributes (if found)
@@ -136,8 +136,7 @@ public:
     const tree& get_config_node() const
     {
         if(!is_locked_)
-            throw config_error(str(
-                boost::format("Initialization of config '%1%' is not finished") % name()));
+            JET_THROW_CFG() << "Initialization of config '" << name() << "' is not finished";
         return *config_;
     }
     void print(std::ostream& os) const
@@ -166,11 +165,10 @@ private:
                     const size_t to_count = to.count(merge_name);
                     if( (from_count > 0 && to_count > 1) ||
                         (to_count > 0 && from_count > 1) )
-                        throw config_error(str(
-                            boost::format("Can't do ambiguous merge of node '%1%' from config source '%2%' to config '%3%'") %
-                            merge_name %
-                            source_name_ %
-                            config_name_));
+                        JET_THROW_CFG()
+                            << "Can't do ambiguous merge of node '" << merge_name
+                            << "' from config source '" << source_name_
+                            << "' to config '" << config_name_<< '\'';
                 }
                 const tree& merge_tree(node.second);
                 const assoc_tree_iter iter(to.find(merge_name));
@@ -319,26 +317,24 @@ void config_node::print(std::ostream& os) const
 std::string config_node::get(const std::string& raw_attr_name) const
 {
     impl_->get_config_node();//...just to check locked state
-    const std::string attr_name(boost::trim_copy(raw_attr_name));
-    const boost::optional<const tree&> attr_node(
-        static_cast<const tree*>(tree_node_)->get_child_optional(attr_name));
+    const std::string attr_name{boost::trim_copy(raw_attr_name)};
+    const boost::optional<const tree&> attr_node{
+        static_cast<const tree*>(tree_node_)->get_child_optional(attr_name)};
     if(!attr_node)
-        throw config_error(str(
-            boost::format("Can't find property '%1%' in config '%2%'") %
-            attr_name %
-            name()));
+        JET_THROW_CFG()
+            << "Can't find property '" << attr_name
+            << "' in config '" << name() << '\'';
     if(attr_node->empty())
         return attr_node->data();
-    throw config_error(str(
-        boost::format("Node '%1%' is intermidiate node without value") %
-        add_path(name(), attr_name)));
+    JET_THROW_CFG()
+        << "Node '" << add_path(name(), attr_name) << "' is intermidiate node without value";
 }
 
 boost::optional<std::string> config_node::get_optional(const std::string& attr_name) const
 {
     impl_->get_config_node();//...just to check locked state
-    const boost::optional<const tree&> attr_node(
-        static_cast<const tree*>(tree_node_)->get_child_optional(boost::trim_copy(attr_name)));
+    const boost::optional<const tree&> attr_node{
+        static_cast<const tree*>(tree_node_)->get_child_optional(boost::trim_copy(attr_name))};
 
     if(attr_node && attr_node->empty())
         return attr_node->data();
@@ -348,7 +344,7 @@ boost::optional<std::string> config_node::get_optional(const std::string& attr_n
 
 std::string config_node::get(const std::string& attr_name, const std::string& default_value) const
 {
-    boost::optional<std::string> value(get_optional(attr_name));
+    const boost::optional<std::string> value{get_optional(attr_name)};
     if(value)
         return *value;
     return default_value;
@@ -359,10 +355,7 @@ config_node config_node::get_node(const std::string& path) const
     boost::optional<config_node> optChild(get_node_optional(path));
     if(optChild)
         return *optChild;
-    throw config_error(str(
-        boost::format("config '%1%' doesn't have child '%2%'") %
-        name() %
-        path));
+    JET_THROW_CFG() << "config '" << name() << "' doesn't have child '" << path << '\'';
 }
 
 boost::optional<config_node> config_node::get_node_optional(const std::string& raw_path) const
@@ -442,11 +435,10 @@ void config::operator<<(config_lock)
 
 void config_node::throw_value_conversion_error(const std::string& attr_name, const std::string& value) const
 {
-    throw config_error(str(
-        boost::format("Can't convert value '%1%' of a property '%2%' in config '%3%'") %
-        value %
-        attr_name %
-        name()));
+    JET_THROW_CFG()
+        << "Can't convert value '" << value
+        << "' of a property '" << attr_name
+        << "' in config '" << name() << '\'';
 }
 
 config::config(const std::string& app_name, const std::string& instance_name):

@@ -23,6 +23,7 @@
 		FA436E9C188C646B00F7EFDB /* config_source.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = config_source.hpp; sourceTree = "<group>"; };
 		FA436E9D188C646B00F7EFDB /* config.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = config.cpp; sourceTree = "<group>"; };
 		FA436E9E188C646B00F7EFDB /* config.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = config.hpp; sourceTree = "<group>"; };
+		FA98DF2218AD74B50009A960 /* config_throw.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = config_throw.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,6 +40,7 @@
 		FA436E89188C637F00F7EFDB = {
 			isa = PBXGroup;
 			children = (
+				FA98DF2218AD74B50009A960 /* config_throw.hpp */,
 				FA436E99188C646B00F7EFDB /* config_error.hpp */,
 				FA436E9A188C646B00F7EFDB /* config_source_impl.hpp */,
 				FA436E9B188C646B00F7EFDB /* config_source.cpp */,
@@ -165,11 +167,12 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					/Users/alex/local/include,
+					../../framework,
 				);
 				LIBRARY_SEARCH_PATHS = /Users/alex/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = "-ljet_application";
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -204,10 +207,11 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					/Users/alex/local/include,
+					../../framework,
 				);
 				LIBRARY_SEARCH_PATHS = /Users/alex/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = "-ljet_application";
 				SDKROOT = macosx;
 			};
 			name = Release;
