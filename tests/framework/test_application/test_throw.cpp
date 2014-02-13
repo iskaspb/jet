@@ -92,9 +92,25 @@ TEST(exception, chained_with_runtime_error)
     {
         const auto expected =
 R"(jet::exception[void throw_helper(const std::string &) @ test_throw.cpp:15]: error message
-std::runtime_error: error message
+std::runtime_error: initial exception
 )";
         EXPECT_EQ(expected, ex.diagnostics());
+        const std::vector<jet::exception::details> expected_diagnostics
+        {
+            {
+                typeid(jet::exception),
+                jet::exception::location{"test_throw.cpp", 15, "void throw_helper(const std::string &)"},
+                "error message"
+            },
+            {
+                typeid(std::runtime_error),
+                jet::exception::location{},
+                "initial exception"
+            }
+        };
+        const auto diagnostics = ex.detailed_diagnostics();
+        ASSERT_EQ(expected_diagnostics.size(), diagnostics.size());
+        EXPECT_TRUE(std::equal(diagnostics.begin(), diagnostics.end(), expected_diagnostics.begin()));
     }
 }
 
@@ -143,7 +159,27 @@ R"(jet::exception[void throw_helper(const std::string &) @ test_throw.cpp:15]: e
 my_error[void throw_helper_ex(const std::string &) [ex_type = my_error] @ test_throw.cpp:21]: initial exception
 )";
         EXPECT_EQ(expected, ex.diagnostics());
-        //TODO: add validation of detailed_diagnostics
+        const std::vector<jet::exception::details> expected_diagnostics
+        {
+            {
+                typeid(jet::exception),
+                jet::exception::location{"test_throw.cpp", 15, "void throw_helper(const std::string &)"},
+                "error message"
+            },
+            {
+                typeid(my_error),
+                jet::exception::location
+                {
+                    "test_throw.cpp",
+                    21,
+                    "void throw_helper_ex(const std::string &) [ex_type = my_error]"
+                },
+                "initial exception"
+            }
+        };
+        const auto diagnostics = ex.detailed_diagnostics();
+        ASSERT_EQ(expected_diagnostics.size(), diagnostics.size());
+        EXPECT_TRUE(std::equal(diagnostics.begin(), diagnostics.end(), expected_diagnostics.begin()));
     }
 }
 
@@ -167,6 +203,21 @@ R"(jet::exception[void throw_helper(const std::string &) @ test_throw.cpp:15]: e
 unknown exception
 )";
         EXPECT_EQ(expected, ex.diagnostics());
-        //TODO: add validation of detailed_diagnostics
+        const std::vector<jet::exception::details> expected_diagnostics
+        {
+            {
+                typeid(jet::exception),
+                jet::exception::location{"test_throw.cpp", 15, "void throw_helper(const std::string &)"},
+                "error message"
+            },
+            {
+                typeid(jet::unknown_exception),
+                jet::exception::location{},
+                std::string()
+            }
+        };
+        const auto diagnostics = ex.detailed_diagnostics();
+        ASSERT_EQ(expected_diagnostics.size(), diagnostics.size());
+        EXPECT_TRUE(std::equal(diagnostics.begin(), diagnostics.end(), expected_diagnostics.begin()));
     }
 }

@@ -71,7 +71,7 @@ void exception::diagnostics(std::ostream& os) const
         catch(const std::exception& ex)
         {
             os << demangle(typeid(ex).name()) << ": ";
-            char const * const msg = what();
+            char const * const msg = ex.what();
             if(msg && msg[0])
                 os << msg;
             else
@@ -99,15 +99,13 @@ std::vector<exception::details> exception::detailed_diagnostics() const
     return chained_details;
 }
 
-struct unknown_exception {};
-
 void exception::populate_details(std::vector<details>& chained_details) const
 {
     chained_details.push_back(
         details{
-            std::type_index(typeid(*this)),
+            typeid(*this),
             location_,
-            what()});
+            what()? std::string{what()}: std::string{}});
     if (nested_ != std::exception_ptr())
     {
         try
@@ -124,15 +122,15 @@ void exception::populate_details(std::vector<details>& chained_details) const
                 details{
                     std::type_index(typeid(ex)),
                     location{},
-                    what()});
+                    ex.what()? std::string{ex.what()}: std::string{}});
         }
         catch(...)
         {
             chained_details.push_back(
                 details{
-                    std::type_index(typeid(unknown_exception)),
+                    typeid(unknown_exception),
                     location{},
-                    (const char*)nullptr});
+                    std::string{}});
         }
     }
 }

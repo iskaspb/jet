@@ -44,7 +44,7 @@ public:
         int line_{};
         const char* function_{};
     };
-    using details = std::tuple<std::type_index, location, const char*>;
+    using details = std::tuple<std::type_index, location, std::string>;
     //...
     exception() {}
     explicit exception(
@@ -74,6 +74,26 @@ private:
 
 std::ostream& operator<<(std::ostream& os, const exception& ex);
 std::ostream& operator<<(std::ostream& os, const exception::location& location);
+
+struct unknown_exception {};
+
+inline bool operator==(const exception::location& lhs, const exception::location& rhs)
+{
+    const bool file_is_equal =
+        lhs.file() == rhs.file() ||
+        (lhs.file() != nullptr && rhs.file() != nullptr && !::strcmp(lhs.file(), rhs.file()));
+    const bool line_is_equal = lhs.line() == rhs.line();
+    const bool function_is_equal =
+        lhs.function() == rhs.function() ||
+        (lhs.function() != nullptr && rhs.function() != nullptr && !::strcmp(lhs.function(), rhs.function()));
+    return file_is_equal && line_is_equal && function_is_equal;
+}
+
+inline bool operator!=(const exception::location& lhs, const exception::location& rhs)
+{
+    return !(lhs == rhs);
+}
+
 }//namespace jet
 
 #endif /*JET_APPLICATION_EXCEPTION_HEADER_GUARD*/

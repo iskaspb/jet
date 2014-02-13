@@ -23,6 +23,12 @@ inline void throw_exception [[noreturn]] (
 }
 }//namespace jet
 
+#define JET_ERROR_LOCATION                                              \
+        ::jet::exception::location{                                     \
+            __FILE__,                                                   \
+            __LINE__,                                                   \
+            BOOST_CURRENT_FUNCTION}
+
 //TODO: make unique 'strm' object name
 #define JET_THROW_EX_WITH_LOCATION(EXCEPTION, LOCATION)                 \
     for(std::ostringstream strm;;                                       \
@@ -31,11 +37,8 @@ inline void throw_exception [[noreturn]] (
 
 #define JET_THROW_EX(EXCEPTION)                                         \
     JET_THROW_EX_WITH_LOCATION(                                         \
-        EXCEPTION, \
-        ::jet::exception::location( \
-            __FILE__, \
-            __LINE__, \
-            BOOST_CURRENT_FUNCTION))
+        EXCEPTION,                                                      \
+        JET_ERROR_LOCATION)
 
 #define JET_THROW()                                                     \
     JET_THROW_EX(::jet::exception)
