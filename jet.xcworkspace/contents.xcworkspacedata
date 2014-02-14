@@ -20,5 +20,8 @@
       <FileRef
          location = "group:framework/application/application.xcodeproj">
       </FileRef>
+      <FileRef
+         location = "group:framework/utils/utils.xcodeproj">
+      </FileRef>
    </Group>
 </Workspace>

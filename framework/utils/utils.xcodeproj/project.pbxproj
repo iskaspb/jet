@@ -7,31 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FA98DF1618A767380009A960 /* test_singleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA98DF1418A767380009A960 /* test_singleton.cpp */; };
-		FA98DF1718A767380009A960 /* test_throw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA98DF1518A767380009A960 /* test_throw.cpp */; };
+		FA98DF3818AEB91C0009A960 /* demangle.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FA98DF3618AEB91C0009A960 /* demangle.hpp */; };
+		FA98DF3B18AEBEA20009A960 /* demangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA98DF3A18AEBEA20009A960 /* demangle.cpp */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		FA5ECCEC18955E3200B0F400 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
-		FA5ECCEE18955E3200B0F400 /* test_application */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = test_application; sourceTree = BUILT_PRODUCTS_DIR; };
-		FA98DF1318A767380009A960 /* gtest.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = gtest.hpp; sourceTree = "<group>"; };
-		FA98DF1418A767380009A960 /* test_singleton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_singleton.cpp; sourceTree = "<group>"; };
-		FA98DF1518A767380009A960 /* test_throw.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_throw.cpp; sourceTree = "<group>"; };
+		FA98DF2C18AEB62E0009A960 /* libjet_utils.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libjet_utils.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		FA98DF3618AEB91C0009A960 /* demangle.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = demangle.hpp; sourceTree = "<group>"; };
+		FA98DF3A18AEBEA20009A960 /* demangle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = demangle.cpp; path = impl/demangle.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		FA5ECCEB18955E3200B0F400 /* Frameworks */ = {
+		FA98DF2918AEB62E0009A960 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -41,84 +28,101 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		FA5ECCE518955E3200B0F400 = {
+		FA98DF2318AEB62E0009A960 = {
 			isa = PBXGroup;
 			children = (
-				FA98DF1318A767380009A960 /* gtest.hpp */,
-				FA98DF1418A767380009A960 /* test_singleton.cpp */,
-				FA98DF1518A767380009A960 /* test_throw.cpp */,
-				FA5ECCEF18955E3200B0F400 /* Products */,
+				FA98DF3918AEBA660009A960 /* impl */,
+				FA98DF3618AEB91C0009A960 /* demangle.hpp */,
+				FA98DF2D18AEB62E0009A960 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		FA5ECCEF18955E3200B0F400 /* Products */ = {
+		FA98DF2D18AEB62E0009A960 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				FA5ECCEE18955E3200B0F400 /* test_application */,
+				FA98DF2C18AEB62E0009A960 /* libjet_utils.dylib */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
+		FA98DF3918AEBA660009A960 /* impl */ = {
+			isa = PBXGroup;
+			children = (
+				FA98DF3A18AEBEA20009A960 /* demangle.cpp */,
+			);
+			name = impl;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		FA98DF2A18AEB62E0009A960 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA98DF3818AEB91C0009A960 /* demangle.hpp in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
-		FA5ECCED18955E3200B0F400 /* test_application */ = {
+		FA98DF2B18AEB62E0009A960 /* utils */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FA5ECCF718955E3200B0F400 /* Build configuration list for PBXNativeTarget "test_application" */;
+			buildConfigurationList = FA98DF3018AEB62E0009A960 /* Build configuration list for PBXNativeTarget "utils" */;
 			buildPhases = (
-				FA5ECCEA18955E3200B0F400 /* Sources */,
-				FA5ECCEB18955E3200B0F400 /* Frameworks */,
-				FA5ECCEC18955E3200B0F400 /* CopyFiles */,
+				FA98DF2818AEB62E0009A960 /* Sources */,
+				FA98DF2918AEB62E0009A960 /* Frameworks */,
+				FA98DF2A18AEB62E0009A960 /* Headers */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = test_application;
-			productName = test_application;
-			productReference = FA5ECCEE18955E3200B0F400 /* test_application */;
-			productType = "com.apple.product-type.tool";
+			name = utils;
+			productName = utils;
+			productReference = FA98DF2C18AEB62E0009A960 /* libjet_utils.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		FA5ECCE618955E3200B0F400 /* Project object */ = {
+		FA98DF2418AEB62E0009A960 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Alexey Tkachenko";
 			};
-			buildConfigurationList = FA5ECCE918955E3200B0F400 /* Build configuration list for PBXProject "test_application" */;
+			buildConfigurationList = FA98DF2718AEB62E0009A960 /* Build configuration list for PBXProject "utils" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 			);
-			mainGroup = FA5ECCE518955E3200B0F400;
-			productRefGroup = FA5ECCEF18955E3200B0F400 /* Products */;
+			mainGroup = FA98DF2318AEB62E0009A960;
+			productRefGroup = FA98DF2D18AEB62E0009A960 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				FA5ECCED18955E3200B0F400 /* test_application */,
+				FA98DF2B18AEB62E0009A960 /* utils */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		FA5ECCEA18955E3200B0F400 /* Sources */ = {
+		FA98DF2818AEB62E0009A960 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA98DF1718A767380009A960 /* test_throw.cpp in Sources */,
-				FA98DF1618A767380009A960 /* test_singleton.cpp in Sources */,
+				FA98DF3B18AEBEA20009A960 /* demangle.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		FA5ECCF518955E3200B0F400 /* Debug */ = {
+		FA98DF2E18AEB62E0009A960 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -149,25 +153,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					/Users/alex/local/include,
-					../../../framework,
-				);
-				LIBRARY_SEARCH_PATHS = /Users/alex/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = (
-					"-lgtest",
-					"-lgtest_main",
-					"-ljet_application",
-				);
 				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
-		FA5ECCF618955E3200B0F400 /* Release */ = {
+		FA98DF2F18AEB62E0009A960 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -193,59 +185,60 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					/Users/alex/local/include,
-					../../../framework,
-				);
-				LIBRARY_SEARCH_PATHS = /Users/alex/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
-				OTHER_LDFLAGS = (
-					"-lgtest",
-					"-lgtest_main",
-					"-ljet_application",
-				);
 				SDKROOT = macosx;
 			};
 			name = Release;
 		};
-		FA5ECCF818955E3200B0F400 /* Debug */ = {
+		FA98DF3118AEB62E0009A960 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				EXECUTABLE_PREFIX = lib;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/Users/alex/local/include,
+				);
+				LIBRARY_SEARCH_PATHS = /Users/alex/local/include;
+				PRODUCT_NAME = "jet_$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
-		FA5ECCF918955E3200B0F400 /* Release */ = {
+		FA98DF3218AEB62E0009A960 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				EXECUTABLE_PREFIX = lib;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/Users/alex/local/include,
+				);
+				LIBRARY_SEARCH_PATHS = /Users/alex/local/include;
+				PRODUCT_NAME = "jet_$(TARGET_NAME)";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		FA5ECCE918955E3200B0F400 /* Build configuration list for PBXProject "test_application" */ = {
+		FA98DF2718AEB62E0009A960 /* Build configuration list for PBXProject "utils" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				FA5ECCF518955E3200B0F400 /* Debug */,
-				FA5ECCF618955E3200B0F400 /* Release */,
+				FA98DF2E18AEB62E0009A960 /* Debug */,
+				FA98DF2F18AEB62E0009A960 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FA5ECCF718955E3200B0F400 /* Build configuration list for PBXNativeTarget "test_application" */ = {
+		FA98DF3018AEB62E0009A960 /* Build configuration list for PBXNativeTarget "utils" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				FA5ECCF818955E3200B0F400 /* Debug */,
-				FA5ECCF918955E3200B0F400 /* Release */,
+				FA98DF3118AEB62E0009A960 /* Debug */,
+				FA98DF3218AEB62E0009A960 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = FA5ECCE618955E3200B0F400 /* Project object */;
+	rootObject = FA98DF2418AEB62E0009A960 /* Project object */;
 }

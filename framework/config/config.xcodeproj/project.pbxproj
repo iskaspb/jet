@@ -172,7 +172,10 @@
 				LIBRARY_SEARCH_PATHS = /Users/alex/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = "-ljet_application";
+				OTHER_LDFLAGS = (
+					"-ljet_application",
+					"-ljet_utils",
+				);
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -211,7 +214,10 @@
 				);
 				LIBRARY_SEARCH_PATHS = /Users/alex/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
-				OTHER_LDFLAGS = "-ljet_application";
+				OTHER_LDFLAGS = (
+					"-ljet_application",
+					"-ljet_utils",
+				);
 				SDKROOT = macosx;
 			};
 			name = Release;

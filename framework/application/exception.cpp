@@ -7,7 +7,7 @@
 //
 
 #include "exception.hpp"
-#include "demangle.hpp"
+#include "utils/demangle.hpp"
 #include <sstream>
 
 namespace jet
