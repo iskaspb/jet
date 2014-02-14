@@ -13,8 +13,6 @@
 #include <boost/property_tree/xml_parser.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/tuple/tuple.hpp>
-#include <boost/foreach.hpp>
-#include <boost/format.hpp>
 #include <sstream>
 
 namespace PT           = boost::property_tree;
@@ -153,12 +151,12 @@ private:
             tree new_children{};
             for(const value_type& node: from)
             {
-                const std::string& merge_name(node.first);
+                const std::string& merge_name{node.first};
                 if(INSTANCE_NODE_NAME == merge_name)
                     continue;
                 {//...check for ambiguous merge
-                    const size_t from_count = from.count(merge_name);
-                    const size_t to_count = to.count(merge_name);
+                    const size_t from_count { from.count(merge_name) };
+                    const size_t to_count { to.count(merge_name) };
                     if( (from_count > 0 && to_count > 1) ||
                         (to_count > 0 && from_count > 1) )
                         JET_THROW_CFG()
@@ -166,8 +164,8 @@ private:
                             << "' from config source '" << source_name_
                             << "' to config '" << config_name_<< '\'';
                 }
-                const tree& merge_tree(node.second);
-                const assoc_tree_iter iter(to.find(merge_name));
+                const tree& merge_tree { node.second };
+                const assoc_tree_iter iter { to.find(merge_name) };
                 if(iter == to.not_found())
                 {
                     new_children.push_back(node);
@@ -181,10 +179,10 @@ private:
                     merge(iter->second, merge_tree);
                 }
             }
-            BOOST_FOREACH(value_type& node, new_children)
+            for(value_type& node: new_children)
             {
-                const std::string& name(node.first);
-                to.push_back(tree::value_type(name, tree()));
+                const std::string& name{node.first};
+                to.push_back(tree::value_type{name, tree{}});
                 node.second.swap(to.back().second);
             }
 
@@ -198,7 +196,7 @@ private:
         assert(!is_locked_);
         assert(!instance_name().empty());
         assert(config_->size() == 3);
-        tree& instance(config_->front().second);
+        tree& instance{config_->front().second};
         return instance;
     }
     tree& get_self_node()
@@ -213,16 +211,16 @@ private:
         else
         {
             assert(config_->size() == 3);
-            tree_iter iter(config_->begin());
+            tree_iter iter{config_->begin()};
             ++iter;
-            tree& self(iter->second);
+            tree& self{iter->second};
             return self;
         }
     }
     tree& get_default_node()
     {
         assert(!is_locked_);
-        tree& default_node(config_->back().second);
+        tree& default_node{config_->back().second};
         return default_node;
     }
     //...
@@ -233,24 +231,24 @@ private:
 };
 
 config_node::config_node(const std::string& app_name, const std::string& instance_name):
-    impl_(std::make_shared<impl>(boost::trim_copy(app_name), boost::trim_copy(instance_name))),
-    tree_node_(0)
+    impl_{std::make_shared<impl>(boost::trim_copy(app_name), boost::trim_copy(instance_name))},
+    tree_node_{}
 {}
 
 config_node::config_node(
     const std::string& path,
     const std::shared_ptr<impl>& impl,
     const void* tree_node):
-    path_(path),
-    impl_(impl),
-    tree_node_(tree_node)
+    path_{path},
+    impl_{impl},
+    tree_node_{tree_node}
 {
 }
 
 config_node::config_node(const config_node& other):
-    path_(other.path_),
-    impl_(other.impl_),
-    tree_node_(other.tree_node_)
+    path_{other.path_},
+    impl_{other.impl_},
+    tree_node_{other.tree_node_}
 {
 }
 
@@ -348,7 +346,7 @@ std::string config_node::get(const std::string& attr_name, const std::string& de
 
 config_node config_node::get_node(const std::string& path) const
 {
-    boost::optional<config_node> optChild(get_node_optional(path));
+    boost::optional<config_node> optChild{get_node_optional(path)};
     if(optChild)
         return *optChild;
     JET_THROW_CFG() << "config '" << name() << "' doesn't have child '" << path << '\'';
@@ -357,15 +355,15 @@ config_node config_node::get_node(const std::string& path) const
 boost::optional<config_node> config_node::get_node_optional(const std::string& raw_path) const
 {
     impl_->get_config_node();//...just to check locked state
-    const std::string path(boost::trim_copy(raw_path));
-    const boost::optional<const tree&> node(
-        static_cast<const tree*>(tree_node_)->get_child_optional(path));
+    const std::string path{boost::trim_copy(raw_path)};
+    const boost::optional<const tree&> node{
+        static_cast<const tree*>(tree_node_)->get_child_optional(path)};
     if(node)
     {
-        return config_node(
+        return config_node{
             add_path(path_, path),
             impl_,
-            &(*node));
+            &(*node)};
     }
     return boost::none;
 }
@@ -373,9 +371,9 @@ boost::optional<config_node> config_node::get_node_optional(const std::string& r
 namespace {
 inline std::pair<std::string, std::string> cutoff_last_node(const std::string& path)
 {
-    const size_t pos = path.find_last_of(NODE_DELIMITER);
+    const size_t pos { path.find_last_of(NODE_DELIMITER) };
     if(pos == std::string::npos)
-        return std::pair<std::string, std::string>(std::string(), path);
+        return {std::string{}, path};
     std::pair<std::string, std::string> res;
     res.first = path.substr(0, pos);
     res.second = path.substr(pos + sizeof(NODE_DELIMITER) - 1);
@@ -398,16 +396,14 @@ std::vector<config_node> config_node::get_children_of(const std::string& raw_par
 
     const tree& parent_node = static_cast<const tree*>(tree_node_)->get_child(parent_path);
     std::vector<config_node> result;
-    BOOST_FOREACH(
-        const tree::value_type& node,
-        parent_node)
+    for(const auto& node: parent_node)
     {
-        const std::string new_path(add_path(full_parent_path, node.first));
+        const std::string new_path{add_path(full_parent_path, node.first)};
         result.push_back(
-            config_node(
+            config_node{
                 new_path,
                 impl_,
-                &node.second));
+                &node.second});
     }
     return result;
 }
