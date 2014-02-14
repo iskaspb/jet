@@ -22,7 +22,7 @@ class config_node
     class impl;
     config_node(
         const std::string& path,
-        const boost::shared_ptr<impl>& impl,
+        const std::shared_ptr<impl>& impl,
         const void* tree_node);
 public:
     config_node(const config_node& copee);
@@ -59,7 +59,7 @@ private:
     friend std::ostream& operator<<(std::ostream& os, const config_node& config);
     //...
     std::string path_;
-    boost::shared_ptr<impl> impl_;
+    std::shared_ptr<impl> impl_;
     const void* tree_node_;
 };
 

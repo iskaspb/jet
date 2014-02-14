@@ -9,9 +9,9 @@
 #ifndef JET_CONFIG_CONFIG_SOURCE_HEADER_GUARD
 #define JET_CONFIG_CONFIG_SOURCE_HEADER_GUARD
 
-#include <boost/shared_ptr.hpp>
 #include <string>
 #include <iosfwd>
+#include <memory>
 
 namespace jet
 {
@@ -19,7 +19,7 @@ namespace jet
 class config_source
 {
     class impl;
-    explicit config_source(const boost::shared_ptr<impl>& impl);
+    explicit config_source(const std::shared_ptr<impl>& impl);
 public:
     enum input_format{ xml, json };
     enum output_type { pretty, one_line };
@@ -47,7 +47,7 @@ public:
     const std::string& name() const;
     std::string to_string(output_type type = pretty) const;
 private:
-    boost::shared_ptr<impl> impl_;
+    std::shared_ptr<impl> impl_;
     friend class config_node;
 };
 

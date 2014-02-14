@@ -237,13 +237,13 @@ private:
 };
 
 config_node::config_node(const std::string& app_name, const std::string& instance_name):
-    impl_(new impl(boost::trim_copy(app_name), boost::trim_copy(instance_name))),
+    impl_(std::make_shared<impl>(boost::trim_copy(app_name), boost::trim_copy(instance_name))),
     tree_node_(0)
 {}
 
 config_node::config_node(
     const std::string& path,
-    const boost::shared_ptr<impl>& impl,
+    const std::shared_ptr<impl>& impl,
     const void* tree_node):
     path_(path),
     impl_(impl),

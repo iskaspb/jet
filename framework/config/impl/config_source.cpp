@@ -14,7 +14,6 @@
 #include <boost/noncopyable.hpp>
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/trim.hpp>
-#include <boost/make_shared.hpp>
 #include <boost/foreach.hpp>
 #include <boost/format.hpp>
 
@@ -504,7 +503,7 @@ config_source::config_source(
 {
     std::stringstream strm;
     strm << source;
-    impl_.reset(new impl(strm, name, format, fname_style));
+    impl_ = std::make_shared<impl>(strm, name, format, fname_style);
 }
 catch(const PT::ptree_error& ex)
 {
@@ -517,7 +516,7 @@ config_source::config_source(
     const std::string& name,
     input_format format,
     file_name_style fname_style) try :
-    impl_(new impl(source, name, format, fname_style))
+    impl_(std::make_shared<impl>(source, name, format, fname_style))
 {
 }
 catch(const PT::ptree_error& ex)
@@ -526,7 +525,7 @@ catch(const PT::ptree_error& ex)
         << "Couldn't parse config '" << name << "'. Reason: " << ex.what();
 }
 
-config_source::config_source(const boost::shared_ptr<impl>& impl): impl_(impl) {}
+config_source::config_source(const std::shared_ptr<impl>& impl): impl_(impl) {}
 
 
 config_source::~config_source() {}
@@ -534,8 +533,7 @@ config_source::~config_source() {}
 config_source config_source::create_from_file(
     const std::string& filename, input_format format, file_name_style fname_style) try
 {
-    const boost::shared_ptr<impl> impl(new class impl(filename, format, fname_style));
-    return config_source(impl);
+    return config_source(std::make_shared<impl>(filename, format, fname_style));
 }
 catch(const PT::ptree_error& ex)
 {
@@ -592,7 +590,7 @@ config_source config_source::create_naive(
             config.add(name_value[0], name_value[1]);
         }
     }
-    return config_source(boost::make_shared<impl>(root, source, config_source::case_sensitive));
+    return config_source(std::make_shared<impl>(root, source, config_source::case_sensitive));
 }
 catch(const config_error&)
 {
