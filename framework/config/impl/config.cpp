@@ -17,17 +17,13 @@
 #include <boost/format.hpp>
 #include <sstream>
 
-//#include <iostream>
-//using std::cout;
-//using std::endl;
-
-namespace PT = boost::property_tree;
-typedef PT::ptree::value_type value_type;
-typedef PT::ptree::iterator tree_iter;
-typedef PT::ptree::assoc_iterator assoc_tree_iter;
-typedef PT::ptree::const_assoc_iterator cassoc_tree_iter;
-typedef PT::ptree tree;
-typedef PT::path path;
+namespace PT           = boost::property_tree;
+using value_type       = PT::ptree::value_type;
+using tree_iter        = PT::ptree::iterator;
+using assoc_tree_iter  = PT::ptree::assoc_iterator;
+using cassoc_tree_iter = PT::ptree::const_assoc_iterator;
+using tree             = PT::ptree;
+using path             = PT::path;
 
 namespace jet
 {
@@ -37,10 +33,10 @@ namespace
 
 inline std::string compose_name(
     const std::string& app_name,
-    const std::string& instance_name = std::string(),
-    const std::string& path = std::string())
+    const std::string& instance_name = std::string{},
+    const std::string& path = std::string{})
 {
-    std::string res(app_name);
+    std::string res{app_name};
     if(!instance_name.empty())
     {
         res += INSTANCE_DELIMITER;
@@ -56,7 +52,7 @@ inline std::string compose_name(
 
 inline std::string add_path(const std::string& lhs, const std::string& rhs)
 {
-    std::string res(lhs);
+    std::string res{lhs};
     if(!res.empty() && !rhs.empty())
         res += NODE_DELIMITER;
     res += rhs;
@@ -65,25 +61,25 @@ inline std::string add_path(const std::string& lhs, const std::string& rhs)
 
 }//anonymous namespace
 
-const config_lock lock = {};
+const config_lock lock{};
 
 class config_node::impl: boost::noncopyable
 {
 public:
     impl(const std::string& app_name, const std::string& instance_name):
-        app_name_(app_name),
-        instance_name_(instance_name),
-        is_locked_(false),
-        config_(0)
+        app_name_{app_name},
+        instance_name_{instance_name},
+        is_locked_{false},
+        config_{}
     {
         if(app_name_.empty())
             JET_THROW_CFG() << "Empty config name";
-        root_.push_back(value_type(ROOT_NODE_NAME, tree()));
+        root_.push_back(value_type{ROOT_NODE_NAME, tree()});
         config_ = &root_.front().second;
         if(!instance_name_.empty())
-            config_->push_back(value_type(instance_name_, tree()));
-        config_->push_back(value_type(app_name_, tree()));
-        config_->push_back(value_type(DEFAULT_NODE_NAME, tree()));
+            config_->push_back(value_type{instance_name_, tree{}});
+        config_->push_back(value_type{app_name_, tree{}});
+        config_->push_back(value_type{DEFAULT_NODE_NAME, tree{}});
     }
     const std::string& app_name() const { return app_name_; }
     const std::string& instance_name() const { return instance_name_; }
@@ -94,20 +90,20 @@ public:
         const tree& other_config(source.get_root().front().second);
         
         {//...merge default attributes (if found)
-            const cassoc_tree_iter default_iter = other_config.find(DEFAULT_NODE_NAME);
+            const cassoc_tree_iter default_iter{ other_config.find(DEFAULT_NODE_NAME) };
             if(other_config.not_found() != default_iter)
                 merge_processor(name(), source.name()).merge(get_default_node(), default_iter->second);
         }
-        const cassoc_tree_iter appIter = other_config.find(app_name());
+        const cassoc_tree_iter appIter { other_config.find(app_name()) };
         if(appIter == other_config.not_found())
             return;
         merge_processor(name(), source.name()).merge(get_self_node(), appIter->second);
         if(!instance_name().empty())
         {//...merge instance
-            const cassoc_tree_iter instance_root_iter = appIter->second.find(INSTANCE_NODE_NAME);
+            const cassoc_tree_iter instance_root_iter { appIter->second.find(INSTANCE_NODE_NAME) };
             if(appIter->second.not_found() != instance_root_iter)
             {
-                const cassoc_tree_iter instance_iter = instance_root_iter->second.find(instance_name());
+                const cassoc_tree_iter instance_iter{ instance_root_iter->second.find(instance_name()) };
                 if(instance_root_iter->second.not_found() != instance_iter)
                 {
                     merge_processor(name(), source.name()).merge(
@@ -154,8 +150,8 @@ private:
         {}
         void merge(tree& to, const tree& from) const
         {
-            tree new_children;
-            BOOST_FOREACH(const value_type& node, from)
+            tree new_children{};
+            for(const value_type& node: from)
             {
                 const std::string& merge_name(node.first);
                 if(INSTANCE_NODE_NAME == merge_name)
