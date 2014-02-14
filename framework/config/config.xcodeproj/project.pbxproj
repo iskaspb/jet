@@ -8,22 +8,23 @@
 
 /* Begin PBXBuildFile section */
 		FA436E9F188C646B00F7EFDB /* config_error.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FA436E99188C646B00F7EFDB /* config_error.hpp */; };
-		FA436EA0188C646B00F7EFDB /* config_source_impl.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FA436E9A188C646B00F7EFDB /* config_source_impl.hpp */; };
-		FA436EA1188C646B00F7EFDB /* config_source.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA436E9B188C646B00F7EFDB /* config_source.cpp */; };
 		FA436EA2188C646B00F7EFDB /* config_source.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FA436E9C188C646B00F7EFDB /* config_source.hpp */; };
-		FA436EA3188C646B00F7EFDB /* config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA436E9D188C646B00F7EFDB /* config.cpp */; };
 		FA436EA4188C646B00F7EFDB /* config.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FA436E9E188C646B00F7EFDB /* config.hpp */; };
+		FA98DF4618AECA140009A960 /* config_source_impl.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FA98DF4218AECA140009A960 /* config_source_impl.hpp */; };
+		FA98DF4718AECA140009A960 /* config_source.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA98DF4318AECA140009A960 /* config_source.cpp */; };
+		FA98DF4818AECA140009A960 /* config_throw.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FA98DF4418AECA140009A960 /* config_throw.hpp */; };
+		FA98DF4918AECA140009A960 /* config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA98DF4518AECA140009A960 /* config.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		FA436E92188C637F00F7EFDB /* libjet_config.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libjet_config.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA436E99188C646B00F7EFDB /* config_error.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = config_error.hpp; sourceTree = "<group>"; };
-		FA436E9A188C646B00F7EFDB /* config_source_impl.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = config_source_impl.hpp; sourceTree = "<group>"; };
-		FA436E9B188C646B00F7EFDB /* config_source.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = config_source.cpp; sourceTree = "<group>"; };
 		FA436E9C188C646B00F7EFDB /* config_source.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = config_source.hpp; sourceTree = "<group>"; };
-		FA436E9D188C646B00F7EFDB /* config.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = config.cpp; sourceTree = "<group>"; };
 		FA436E9E188C646B00F7EFDB /* config.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = config.hpp; sourceTree = "<group>"; };
-		FA98DF2218AD74B50009A960 /* config_throw.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = config_throw.hpp; sourceTree = "<group>"; };
+		FA98DF4218AECA140009A960 /* config_source_impl.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = config_source_impl.hpp; path = impl/config_source_impl.hpp; sourceTree = "<group>"; };
+		FA98DF4318AECA140009A960 /* config_source.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = config_source.cpp; path = impl/config_source.cpp; sourceTree = "<group>"; };
+		FA98DF4418AECA140009A960 /* config_throw.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = config_throw.hpp; path = impl/config_throw.hpp; sourceTree = "<group>"; };
+		FA98DF4518AECA140009A960 /* config.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = config.cpp; path = impl/config.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -40,12 +41,9 @@
 		FA436E89188C637F00F7EFDB = {
 			isa = PBXGroup;
 			children = (
-				FA98DF2218AD74B50009A960 /* config_throw.hpp */,
+				FA98DF4118AECA020009A960 /* impl */,
 				FA436E99188C646B00F7EFDB /* config_error.hpp */,
-				FA436E9A188C646B00F7EFDB /* config_source_impl.hpp */,
-				FA436E9B188C646B00F7EFDB /* config_source.cpp */,
 				FA436E9C188C646B00F7EFDB /* config_source.hpp */,
-				FA436E9D188C646B00F7EFDB /* config.cpp */,
 				FA436E9E188C646B00F7EFDB /* config.hpp */,
 				FA436E93188C637F00F7EFDB /* Products */,
 			);
@@ -59,6 +57,17 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		FA98DF4118AECA020009A960 /* impl */ = {
+			isa = PBXGroup;
+			children = (
+				FA98DF4218AECA140009A960 /* config_source_impl.hpp */,
+				FA98DF4318AECA140009A960 /* config_source.cpp */,
+				FA98DF4418AECA140009A960 /* config_throw.hpp */,
+				FA98DF4518AECA140009A960 /* config.cpp */,
+			);
+			name = impl;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -68,8 +77,9 @@
 			files = (
 				FA436EA2188C646B00F7EFDB /* config_source.hpp in Headers */,
 				FA436E9F188C646B00F7EFDB /* config_error.hpp in Headers */,
+				FA98DF4818AECA140009A960 /* config_throw.hpp in Headers */,
 				FA436EA4188C646B00F7EFDB /* config.hpp in Headers */,
-				FA436EA0188C646B00F7EFDB /* config_source_impl.hpp in Headers */,
+				FA98DF4618AECA140009A960 /* config_source_impl.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -124,8 +134,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA436EA1188C646B00F7EFDB /* config_source.cpp in Sources */,
-				FA436EA3188C646B00F7EFDB /* config.cpp in Sources */,
+				FA98DF4718AECA140009A960 /* config_source.cpp in Sources */,
+				FA98DF4918AECA140009A960 /* config.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
