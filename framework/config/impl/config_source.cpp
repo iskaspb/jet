@@ -499,7 +499,7 @@ config_source::config_source(
 {
     std::stringstream strm;
     strm << source;
-    impl_ = std::make_shared<impl>(strm, name, format, fname_style);
+    impl_.reset(new impl{strm, name, format, fname_style});
 }
 catch(const PT::ptree_error& ex)
 {
@@ -512,7 +512,7 @@ config_source::config_source(
     const std::string& name,
     input_format format,
     file_name_style fname_style) try :
-    impl_{std::make_shared<impl>(source, name, format, fname_style)}
+    impl_{new impl{source, name, format, fname_style}}
 {
 }
 catch(const PT::ptree_error& ex)
@@ -521,15 +521,14 @@ catch(const PT::ptree_error& ex)
         << "Couldn't parse config '" << name << "'. Reason: " << ex.what();
 }
 
-config_source::config_source(const std::shared_ptr<impl>& impl): impl_(impl) {}
-
+config_source::config_source(std::unique_ptr<impl> impl): impl_(std::move(impl)) {}
 
 config_source::~config_source() {}
 
 config_source config_source::create_from_file(
     const std::string& filename, input_format format, file_name_style fname_style) try
 {
-    return config_source{std::make_shared<impl>(filename, format, fname_style)};
+    return config_source{std::unique_ptr<impl>{new impl{filename, format, fname_style}}};
 }
 catch(const PT::ptree_error& ex)
 {
@@ -586,7 +585,7 @@ config_source config_source::create_naive(
             config.add(name_value[0], name_value[1]);
         }
     }
-    return config_source(std::make_shared<impl>(root, source, config_source::case_sensitive));
+    return config_source(std::unique_ptr<impl>{new impl{root, source, config_source::case_sensitive}});
 }
 catch(const config_error&)
 {
@@ -601,6 +600,27 @@ catch(const std::exception& ex)
 const std::string& config_source::name() const
 {
     return impl_->name();
+}
+
+config_source::config_source(const config_source& other):
+    impl_{new impl{*other.impl_}}
+{}
+
+config_source& config_source::operator=(const config_source& other)
+{
+    std::unique_ptr<impl> tmp{new impl{*other.impl_}};
+    impl_.swap(tmp);
+    return *this;
+}
+
+config_source::config_source(config_source&& other):
+    impl_{std::move(other.impl_)}
+{}
+
+config_source& config_source::operator=(config_source&& other)
+{
+    impl_.swap(other.impl_);
+    return *this;
 }
 
 }//namespace jet

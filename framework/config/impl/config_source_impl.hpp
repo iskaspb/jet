@@ -21,7 +21,7 @@
 namespace jet
 {
 
-class config_source::impl: boost::noncopyable
+class config_source::impl
 {
 public:
     impl(

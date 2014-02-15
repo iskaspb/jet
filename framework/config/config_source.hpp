@@ -19,7 +19,7 @@ namespace jet
 class config_source
 {
     class impl;
-    explicit config_source(const std::shared_ptr<impl>& impl);
+    explicit config_source(std::unique_ptr<impl>);
 public:
     enum input_format{ xml, json };
     enum output_type { pretty, one_line };
@@ -35,7 +35,12 @@ public:
         const std::string& name = "unknown",
         input_format format = xml,
         file_name_style = case_sensitive);
+    config_source(const config_source& other);
+    config_source& operator=(const config_source& other);
+    config_source(config_source&& other);
+    config_source& operator=(config_source&& other);
     ~config_source();
+    //...
     static config_source create_from_file(
         const std::string& filename,
         input_format format = xml,
@@ -47,7 +52,7 @@ public:
     const std::string& name() const;
     std::string to_string(output_type type = pretty) const;
 private:
-    std::shared_ptr<impl> impl_;
+    std::unique_ptr<impl> impl_;
     friend class config_node;
 };
 

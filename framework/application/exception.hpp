@@ -52,12 +52,10 @@ public:
         const exception::location& location = exception::location{}):
         message_{message},
         location_{location}
-    {
-        (void)message_.c_str();
-    }
+    {}
     //...
     void set_location(const exception::location& location) { location_ = location; }
-    
+
     void set_message(const std::string& message) { (message_ = message).c_str(); }
 
     const char* what() const noexcept override { return message_.c_str(); }

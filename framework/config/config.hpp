@@ -63,7 +63,7 @@ private:
     const void* tree_node_;
 };
 
-typedef std::vector<config_node> config_nodes;
+using config_nodes = std::vector<config_node>;
 
 extern std::ostream& operator<<(std::ostream& os, const config_node& config);
 
