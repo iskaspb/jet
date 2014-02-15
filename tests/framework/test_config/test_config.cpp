@@ -655,7 +655,7 @@ TEST(config, get_children_of)
     deployment << s1 << jet::lock;
     const std::vector<jet::config_node> regions(deployment.get_children_of("regions"));
     EXPECT_EQ(2U, regions.size());
-    BOOST_FOREACH(const jet::config_node& region, regions)
+    for(const jet::config_node& region : regions)
     {
         const std::string& region_name = region.node_name();
         const std::vector<jet::config_node> boxes(region.get_children_of("boxes"));
@@ -664,7 +664,7 @@ TEST(config, get_children_of)
         else
             EXPECT_EQ(3U, boxes.size());
         unsigned index = 1;
-        BOOST_FOREACH(const jet::config_node& box, boxes)
+        for(const jet::config_node& box : boxes)
         {
             const std::string expected_hostname(region_name + boost::lexical_cast<std::string>(index));
             EXPECT_EQ(expected_hostname, box.get<std::string>("hostname"));

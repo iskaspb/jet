@@ -72,12 +72,12 @@ public:
     {
         if(app_name_.empty())
             JET_THROW_CFG() << "Empty config name";
-        root_.push_back(value_type{ROOT_NODE_NAME, tree()});
+        root_.push_back({ROOT_NODE_NAME, tree()});
         config_ = &root_.front().second;
         if(!instance_name_.empty())
-            config_->push_back(value_type{instance_name_, tree{}});
-        config_->push_back(value_type{app_name_, tree{}});
-        config_->push_back(value_type{DEFAULT_NODE_NAME, tree{}});
+            config_->push_back({instance_name_, tree{}});
+        config_->push_back({app_name_, tree{}});
+        config_->push_back({DEFAULT_NODE_NAME, tree{}});
     }
     const std::string& app_name() const { return app_name_; }
     const std::string& instance_name() const { return instance_name_; }
@@ -182,7 +182,7 @@ private:
             for(value_type& node: new_children)
             {
                 const std::string& name{node.first};
-                to.push_back(tree::value_type{name, tree{}});
+                to.push_back({name, tree{}});
                 node.second.swap(to.back().second);
             }
 
@@ -390,7 +390,7 @@ std::vector<config_node> config_node::get_children_of(const std::string& raw_par
 {
     impl_->get_config_node();//...just to check locked state
     
-    const std::string parent_path(boost::trim_copy(raw_parent_path));
+    const std::string parent_path{boost::trim_copy(raw_parent_path)};
 
     const std::string full_parent_path(add_path(path_, parent_path));
 
