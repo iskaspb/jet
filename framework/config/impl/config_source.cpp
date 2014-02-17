@@ -328,7 +328,7 @@ std::string config_source::impl::to_string(bool pretty) const
 void config_source::impl::normalize_xml_attributes(tree& raw_tree) const
 {
     if (raw_tree.empty())
-        JET_THROW_CFG() << "config source '" << name() << "' is empty";
+        JET_THROW_CFG() << "Config source '" << name() << "' is empty";
     
     normalize_xml_attributes_impl(path(), raw_tree);
 }
@@ -491,110 +491,19 @@ void config_source::impl::copy_unique_children(const path& current_path, const t
     }
 }
 
-config_source::config_source(
-    const std::string& source,
-    const std::string& name,
-    input_format format,
-    file_name_style fname_style) try
-{
-    std::stringstream strm;
-    strm << source;
-    impl_.reset(new impl{strm, name, format, fname_style});
-}
-catch(const PT::ptree_error& ex)
-{
-    JET_THROW_CFG()
-        << "Couldn't parse config '" << name << "'. Reason: " << ex.what();
-}
-
-config_source::config_source(
-    std::istream& source,
-    const std::string& name,
-    input_format format,
-    file_name_style fname_style) try :
-    impl_{new impl{source, name, format, fname_style}}
-{
-}
-catch(const PT::ptree_error& ex)
-{
-    JET_THROW_CFG()
-        << "Couldn't parse config '" << name << "'. Reason: " << ex.what();
-}
-
 config_source::config_source(std::unique_ptr<impl> impl): impl_(std::move(impl)) {}
 
 config_source::~config_source() {}
-
-config_source config_source::create_from_file(
-    const std::string& filename, input_format format, file_name_style fname_style) try
-{
-    return config_source{std::unique_ptr<impl>{new impl{filename, format, fname_style}}};
-}
-catch(const PT::ptree_error& ex)
-{
-    JET_THROW_CFG()
-        << "Couldn't parse config '" << filename << "'. Reason: " << ex.what();
-}
 
 std::string config_source::to_string(output_type type) const try
 {
     return impl_->to_string(pretty == type);
 }
-catch(const PT::ptree_error& ex)
+catch(const std::exception& ex)
 {
     JET_THROW_CFG()
         << "Couldn't stringify config '" << impl_->name()
         << "'. Reason: " << ex.what();
-}
-
-config_source config_source::create_naive(
-    const std::string& source,
-    const std::string& app_name,
-    const std::string& instance_name) try
-{
-    tree root;
-    if(app_name.empty())
-        JET_THROW_CFG()
-            << "Empty application name. Couldn't create configuration from '" << source << '\'';
-    {//...prepare configuration tree
-        const tree_iter app_node_iter {
-            root.insert(root.begin(), {app_name, tree{}})};
-
-        tree& config { instance_name.empty()?
-            app_node_iter->second:
-            app_node_iter->second.put(
-                INSTANCE_NODE_NAME NODE_DELIMITER + instance_name, std::string{})};
-
-        std::vector<std::string> properties;//TODO: define ':' and '=' as symbolic constants
-        boost::split(properties, source, boost::is_any_of(":"), boost::token_compress_on);
-        for(std::string& property : properties)
-        {
-            boost::trim(property);
-            if(property.empty())
-                continue;
-            std::vector<std::string> name_value;
-            boost::split(name_value, property, boost::is_any_of("="));
-            if(name_value.size() != 2)
-                JET_THROW_CFG()
-                    << "Invalid property '" << property << "' in config source '" << source << '\'';
-            boost::trim(name_value[0]);
-            boost::trim(name_value[1]);
-            if(name_value[0].empty() || name_value[1].empty())
-                JET_THROW_CFG()
-                    << "Invalid property '" << property << "' in config source '" << source << '\'';
-            config.add(name_value[0], name_value[1]);
-        }
-    }
-    return config_source(std::unique_ptr<impl>{new impl{root, source, config_source::case_sensitive}});
-}
-catch(const config_error&)
-{
-    throw;
-}
-catch(const std::exception& ex)
-{
-    JET_THROW_CFG()
-        << "Couldn't create configuration from '" << source << "'. Reason: " << ex.what();
 }
 
 const std::string& config_source::name() const
@@ -622,5 +531,80 @@ config_source& config_source::operator=(config_source&& other)
     impl_.swap(other.impl_);
     return *this;
 }
+
+config_source config_source::from_string::create() try
+{
+    std::stringstream strm { source_ };
+    return std::unique_ptr<impl>{new impl{strm, name_, fmt_, name_style_}};
+}
+catch(const std::exception& ex)
+{
+    JET_THROW_CFG()
+        << "Couldn't parse config '" << name_ << '\'';
+}
+
+config_source config_source::from_stream::create() try
+{
+    return std::unique_ptr<impl>{new impl{*strm_, name_, fmt_, name_style_}};
+}
+catch(const std::exception& ex)
+{
+    JET_THROW_CFG()
+        << "Couldn't parse config '" << name_ << '\'';
+}
+
+config_source config_source::from_file::create() try
+{
+    return std::unique_ptr<impl>{new impl{filename_, fmt_, name_style_}};
+}
+catch(const std::exception& ex)
+{
+    JET_THROW_CFG()
+        << "Couldn't parse config '" << filename_ << '\'';
+}
+
+config_source config_source::from_cmd_line::create() try
+{
+    tree root;
+    if(app_name_.empty())
+        JET_THROW_CFG()
+            << "Empty application name. Couldn't create configuration from '" << source_ << '\'';
+    {//...prepare configuration tree
+        const tree_iter app_node_iter {
+            root.insert(root.begin(), {app_name_, tree{}})};
+
+        tree& config { instance_name_.empty()?
+            app_node_iter->second:
+            app_node_iter->second.put(
+                INSTANCE_NODE_NAME NODE_DELIMITER + instance_name_, std::string{})};
+
+        std::vector<std::string> properties;//TODO: define ':' and '=' as symbolic constants
+        boost::split(properties, source_, boost::is_any_of(":"), boost::token_compress_on);
+        for(std::string& property : properties)
+        {
+            boost::trim(property);
+            if(property.empty())
+                continue;
+            std::vector<std::string> name_value;
+            boost::split(name_value, property, boost::is_any_of("="));
+            if(name_value.size() != 2)
+                JET_THROW_CFG()
+                    << "Invalid property '" << property << "' in config source '" << source_ << '\'';
+            boost::trim(name_value[0]);
+            boost::trim(name_value[1]);
+            if(name_value[0].empty() || name_value[1].empty())
+                JET_THROW_CFG()
+                    << "Invalid property '" << property << "' in config source '" << source_ << '\'';
+            config.add(name_value[0], name_value[1]);
+        }
+    }
+    return std::unique_ptr<impl>{new impl{root, source_, config_source::case_sensitive}};
+}
+catch(const std::exception& ex)
+{
+    JET_THROW_CFG()
+        << "Couldn't create configuration from '" << source_ << '\'';
+}
+
 
 }//namespace jet

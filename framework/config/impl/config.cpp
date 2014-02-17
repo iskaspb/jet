@@ -12,7 +12,6 @@
 #include <boost/property_tree/exceptions.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 #include <boost/algorithm/string.hpp>
-#include <boost/tuple/tuple.hpp>
 #include <sstream>
 
 namespace PT           = boost::property_tree;

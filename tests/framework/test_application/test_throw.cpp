@@ -4,7 +4,7 @@
 //  http://www.boost.org/LICENSE_1_0.txt)
 //
 #include "application/throw.hpp"
-#include "gtest.hpp"
+#include <gtest/gtest.h>
 #include <stdexcept>
 #include <iostream>
 using std::cout;
