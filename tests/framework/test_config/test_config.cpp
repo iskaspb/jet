@@ -76,7 +76,7 @@ TEST(config_source, attr_config_source)
         source.to_string());
 }
 
-TEST(config_source, normalize_colon_config_source)
+TEST(config_source, normalize_instance_shortcut_config_source)
 {
     const config_source source{config_source::from_string{"<config><app..i1 attr='value'/></config>"}};
     EXPECT_EQ(
@@ -92,7 +92,7 @@ TEST(config_source, normalize_colon_config_source)
         source.to_string());
 }
 
-TEST(config_source, error_colon_config_source)
+TEST(config_source, error_instance_shortcut_config_source)
 {
     EXPECT_CONFIG_ERROR(
         config_source::from_string{"<config><app.. attr='value'/></config>"}.name("s1.xml").create(),
