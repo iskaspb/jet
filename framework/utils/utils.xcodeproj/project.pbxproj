@@ -7,11 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FA98CD1318B3B0C6002A5948 /* stacktrace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA98CD1218B3B0C6002A5948 /* stacktrace.cpp */; };
 		FA98DF3818AEB91C0009A960 /* demangle.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FA98DF3618AEB91C0009A960 /* demangle.hpp */; };
 		FA98DF3B18AEBEA20009A960 /* demangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA98DF3A18AEBEA20009A960 /* demangle.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FA98CD1118B3B0A8002A5948 /* stacktrace.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = stacktrace.hpp; sourceTree = "<group>"; };
+		FA98CD1218B3B0C6002A5948 /* stacktrace.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = stacktrace.cpp; path = impl/stacktrace.cpp; sourceTree = "<group>"; };
 		FA98DF2C18AEB62E0009A960 /* libjet_utils.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libjet_utils.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA98DF3618AEB91C0009A960 /* demangle.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = demangle.hpp; sourceTree = "<group>"; };
 		FA98DF3A18AEBEA20009A960 /* demangle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = demangle.cpp; path = impl/demangle.cpp; sourceTree = "<group>"; };
@@ -31,6 +34,7 @@
 		FA98DF2318AEB62E0009A960 = {
 			isa = PBXGroup;
 			children = (
+				FA98CD1118B3B0A8002A5948 /* stacktrace.hpp */,
 				FA98DF3918AEBA660009A960 /* impl */,
 				FA98DF3618AEB91C0009A960 /* demangle.hpp */,
 				FA98DF2D18AEB62E0009A960 /* Products */,
@@ -49,6 +53,7 @@
 			isa = PBXGroup;
 			children = (
 				FA98DF3A18AEBEA20009A960 /* demangle.cpp */,
+				FA98CD1218B3B0C6002A5948 /* stacktrace.cpp */,
 			);
 			name = impl;
 			sourceTree = "<group>";
@@ -115,6 +120,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA98CD1318B3B0C6002A5948 /* stacktrace.cpp in Sources */,
 				FA98DF3B18AEBEA20009A960 /* demangle.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -153,6 +159,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				LD_MAP_FILE_PATH = "$(TARGET_TEMP_DIR)/$(PRODUCT_NAME)-LinkMap-$(CURRENT_VARIANT)-$(CURRENT_ARCH).txt";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -185,6 +192,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				LD_MAP_FILE_PATH = "$(TARGET_TEMP_DIR)/$(PRODUCT_NAME)-LinkMap-$(CURRENT_VARIANT)-$(CURRENT_ARCH).txt";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				SDKROOT = macosx;
 			};
@@ -237,6 +245,7 @@
 				FA98DF3218AEB62E0009A960 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

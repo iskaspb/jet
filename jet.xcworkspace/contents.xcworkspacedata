@@ -5,6 +5,9 @@
       location = "container:"
       name = "tests">
       <FileRef
+         location = "group:tests/framework/test_utils/test_utils.xcodeproj">
+      </FileRef>
+      <FileRef
          location = "group:tests/framework/test_config/test_config.xcodeproj">
       </FileRef>
       <FileRef

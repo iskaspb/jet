@@ -1,4 +1,4 @@
-// jet.application library
+// jet.utils library
 //
 //  Copyright Alexey Tkachenko 2014. Use, modification and
 //  distribution is subject to the Boost Software License, Version
