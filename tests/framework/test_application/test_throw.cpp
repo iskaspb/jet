@@ -3,7 +3,7 @@
 //  1.0. (See accompanying file LICENSE_1_0.txt or copy at
 //  http://www.boost.org/LICENSE_1_0.txt)
 //
-#include "application/throw.hpp"
+#include "application/assert.hpp"
 #include <gtest/gtest.h>
 #include <stdexcept>
 #include <iostream>
@@ -51,11 +51,12 @@ TEST(exception, throw_with_complex_message)
 {
     try
     {
-        JET_THROW() << "ONE " << 1 << ", TWO " << 2;
+        std::string two{"TWO"};
+        JET_THROW() << "ONE" << 1 << ", " << two << 2 << ", " << two << 2;
     }
     catch(const std::exception& ex)
     {
-        EXPECT_EQ(std::string{"ONE 1, TWO 2"}, ex.what());
+        EXPECT_EQ(std::string{"ONE1, TWO2, TWO2"}, ex.what());
     }
 }
 
@@ -219,5 +220,19 @@ unknown exception
         const auto diagnostics = ex.detailed_diagnostics();
         ASSERT_EQ(expected_diagnostics.size(), diagnostics.size());
         EXPECT_TRUE(std::equal(diagnostics.begin(), diagnostics.end(), expected_diagnostics.begin()));
+    }
+}
+
+TEST(exception, assert)
+{//TODO: finish
+    JET_ASSERT(true == true);
+    try
+    {
+        JET_ASSERT(true == false) << "error message";
+    }
+    catch (const jet::assert_error& ex)
+    {
+        cout << ex.what() << endl;
+        cout << ex;
     }
 }
