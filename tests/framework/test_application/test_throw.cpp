@@ -51,12 +51,12 @@ TEST(exception, throw_with_complex_message)
 {
     try
     {
-        std::string two{"TWO"};
-        JET_THROW() << "ONE" << 1 << ", " << two << 2 << ", " << two << 2;
+        const std::string two{"TWO"};
+        JET_THROW() << two << 1 << ", ONE" << 2 << ", " << two << 2;
     }
     catch(const std::exception& ex)
     {
-        EXPECT_EQ(std::string{"ONE1, TWO2, TWO2"}, ex.what());
+        EXPECT_EQ(std::string{"TWO1, ONE2, TWO2"}, ex.what());
     }
 }
 
