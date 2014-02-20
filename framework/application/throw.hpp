@@ -24,7 +24,7 @@ struct error_stream: boost::noncopyable
     bool empty() const { return !holder_.valid(); }
 private:
     std::ostringstream& strm() { return holder_; }
-    struct alignas(std::ostringstream) holder
+    struct holder
     {
         holder(): ptr_{} {}
         ~holder()
@@ -40,7 +40,7 @@ private:
         }
         bool valid() const { return ptr_; }
     private:
-        char memory_[sizeof(std::stringstream)];
+        alignas(std::ostringstream) char memory_[sizeof(std::ostringstream)];
         std::ostringstream* ptr_;
     } holder_;
 };
