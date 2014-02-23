@@ -71,13 +71,13 @@ inline void throw_exception [[noreturn]] (
             __LINE__,                                                   \
             BOOST_CURRENT_FUNCTION}
 
-//TODO: make unique 'strm' object name
 #define JET_THROW_EX_WITH_LOCATION(EXCEPTION, LOCATION)                 \
-    for(jet::error_stream strm;;                                        \
-        strm.empty()?                                                   \
+    for(jet::error_stream jet_throw_ex_with_location_strm;;             \
+        jet_throw_ex_with_location_strm.empty()?                        \
             jet::throw_exception<EXCEPTION>(LOCATION):                  \
-            jet::throw_exception<EXCEPTION>(LOCATION, strm.str()))      \
-        strm
+            jet::throw_exception<EXCEPTION>(                            \
+                LOCATION, jet_throw_ex_with_location_strm.str()))       \
+        jet_throw_ex_with_location_strm
 
 #define JET_THROW_EX(EXCEPTION)                                         \
     JET_THROW_EX_WITH_LOCATION(                                         \

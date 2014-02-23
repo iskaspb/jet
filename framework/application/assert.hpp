@@ -11,11 +11,15 @@
 namespace jet { struct assert_error: virtual exception {}; }
 
 //TODO: test it
-#define JET_ASSERT(CONDITION)                                           \
-    for(jet::error_stream strm;!(CONDITION);                            \
-        strm.empty()?                                                   \
-            jet::throw_exception<jet::assert_error>(JET_ERROR_LOCATION):             \
-            jet::throw_exception<jet::assert_error>(JET_ERROR_LOCATION, strm.str())) \
-        strm
+#define JET_ASSERT(CONDITION)                                  \
+    for(jet::error_stream jet_assert_strm;!(CONDITION);        \
+        jet_assert_strm.empty()?                               \
+            jet::throw_exception<jet::assert_error>(           \
+                JET_ERROR_LOCATION,                            \
+                "Assertion failed (" #CONDITION ")"):          \
+            jet::throw_exception<jet::assert_error>(           \
+                JET_ERROR_LOCATION,                            \
+                "Assertion failed (" #CONDITION "), message: " + jet_assert_strm.str())) \
+        jet_assert_strm
 
 #endif /*JET_APPLICATION_ASSERT_HEADER_GUARD*/

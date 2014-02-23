@@ -224,15 +224,22 @@ unknown exception
 }
 
 TEST(exception, assert)
-{//TODO: finish
+{
     JET_ASSERT(true == true);
     try
     {
-        JET_ASSERT(true == false) << "error message";
+        JET_ASSERT(true == false);
     }
     catch (const jet::assert_error& ex)
     {
-        cout << ex.what() << endl;
-        cout << ex;
+        EXPECT_EQ(std::string("Assertion failed (true == false)"), ex.what());
+    }
+    try
+    {
+        JET_ASSERT(false) << "error message";
+    }
+    catch (const jet::assert_error& ex)
+    {
+        EXPECT_EQ(std::string("Assertion failed (false), message: error message"), ex.what());
     }
 }
