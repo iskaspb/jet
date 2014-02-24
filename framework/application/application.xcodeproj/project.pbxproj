@@ -10,6 +10,8 @@
 		FA98DF2118AAC2AF0009A960 /* throw.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FA98DF1F18AAC2AF0009A960 /* throw.hpp */; };
 		FA98DF3F18AEBF5F0009A960 /* exception.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA98DF3D18AEBF5F0009A960 /* exception.cpp */; };
 		FA98DF4018AEBF5F0009A960 /* singleton_registry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA98DF3E18AEBF5F0009A960 /* singleton_registry.cpp */; };
+		FAC2472818BBADB500D15892 /* singularity_policies.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FAC2472518BBADB500D15892 /* singularity_policies.hpp */; };
+		FAC2472918BBADB500D15892 /* singularity.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FAC2472618BBADB500D15892 /* singularity.hpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +22,8 @@
 		FA98DF1F18AAC2AF0009A960 /* throw.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; path = throw.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		FA98DF3D18AEBF5F0009A960 /* exception.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = exception.cpp; path = impl/exception.cpp; sourceTree = "<group>"; };
 		FA98DF3E18AEBF5F0009A960 /* singleton_registry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = singleton_registry.cpp; path = impl/singleton_registry.cpp; sourceTree = "<group>"; };
+		FAC2472518BBADB500D15892 /* singularity_policies.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = singularity_policies.hpp; path = impl/singularity_policies.hpp; sourceTree = "<group>"; };
+		FAC2472618BBADB500D15892 /* singularity.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = singularity.hpp; path = impl/singularity.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +60,8 @@
 		FA98DF3C18AEBF450009A960 /* impl */ = {
 			isa = PBXGroup;
 			children = (
+				FAC2472518BBADB500D15892 /* singularity_policies.hpp */,
+				FAC2472618BBADB500D15892 /* singularity.hpp */,
 				FA98DF3D18AEBF5F0009A960 /* exception.cpp */,
 				FA98DF3E18AEBF5F0009A960 /* singleton_registry.cpp */,
 			);
@@ -69,6 +75,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FAC2472918BBADB500D15892 /* singularity.hpp in Headers */,
+				FAC2472818BBADB500D15892 /* singularity_policies.hpp in Headers */,
 				FA98DF2118AAC2AF0009A960 /* throw.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
