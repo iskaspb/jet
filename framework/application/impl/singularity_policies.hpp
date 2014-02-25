@@ -4,8 +4,8 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef SINGULARITY_CPP11_POLICIES_HPP
-#define SINGULARITY_CPP11_POLICIES_HPP
+#ifndef JET_APPLICATION_SINGULARITY_POLICIES_HEADER_GUARD
+#define JET_APPLICATION_SINGULARITY_POLICIES_HEADER_GUARD
 
 #include <mutex>
 
@@ -44,4 +44,4 @@ template <class T> std::mutex multi_threaded<T>::lockable;
 
 } // jet namespace
 
-#endif // SINGULARITY_CPP11_POLICIES_HPP
+#endif /*JET_APPLICATION_SINGULARITY_POLICIES_HEADER_GUARD*/

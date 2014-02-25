@@ -30,70 +30,40 @@
 //                       Horizon::destroy();
 //----------------------------------------------------------------------------
 
-#ifndef SINGULARITY_CPP11_HPP_
-#define SINGULARITY_CPP11_HPP_
-
-#include <exception>
+#ifndef JET_APPLICATION_SINGULARITY_HEADER_GUARD
+#define JET_APPLICATION_SINGULARITY_HEADER_GUARD
 
 #include "singularity_policies.hpp"
+#include "../throw.hpp"
+#include "utils/demangle.hpp"
 
 namespace jet
 {
 
-struct singularity_already_created : virtual std::exception
-{
-    virtual char const *what() const throw()
-    {
-        return "jet::singularity_already_created";
-    }
-};
-
-struct singularity_already_destroyed : virtual std::exception
-{
-    virtual char const *what() const throw()
-    {
-        return "jet::singularity_already_destroyed";
-    }
-};
-
-struct singularity_not_created : virtual std::exception
-{
-    virtual char const *what() const throw()
-    {
-        return "jet::singularity_not_created";
-    }
-};
-
-struct singularity_no_global_access : virtual std::exception
-{
-    virtual char const *what() const throw()
-    {
-        return "jet::singularity_no_global_access";
-    }
-};
+struct singleton_error : virtual exception{};
 
 namespace detail
 {
 
 // This pointer only depends on type T, so regardless of the threading
 // model, only one singularity of type T can be created.
-template <class T> struct singularity_instance
+template <typename T> struct singularity_instance
 {
     static bool get_enabled;
     static std::unique_ptr<T> ptr;
 };
 
-template <class T> bool singularity_instance<T>::get_enabled{false};
-template <class T> std::unique_ptr<T> singularity_instance<T>::ptr{};
+template <typename T> bool singularity_instance<T>::get_enabled{false};
+template <typename T> std::unique_ptr<T> singularity_instance<T>::ptr{};
 
 } // detail namespace
 
-template <class T, template <class> class M = single_threaded>
+template <typename T, template <class> class M = single_threaded>
 class singularity
 {
 public:
     template <class ...A>
-    static inline T& create(A && ...args)
+    static T& create(A && ...args)
     {
         M<T> guard;
         (void)guard;
@@ -106,7 +76,7 @@ public:
     }
 
     template <class ...A>
-    static inline T& create_global(A && ...args)
+    static T& create_global(A && ...args)
     {
         M<T> guard;
         (void)guard;
@@ -118,43 +88,43 @@ public:
         return *detail::singularity_instance<T>::ptr;
     }
 
-    static inline void destroy()
+    static void destroy()
     {
         M<T> guard;
         (void)guard;
 
         if (!detail::singularity_instance<T>::ptr.get())
-            throw singularity_already_destroyed{};
+            JET_THROW_EX(singleton_error) << "singularity<" << demangle(typeid(T).name()) << "> already destroyed";
 
         detail::singularity_instance<T>::ptr.reset();
     }
 
-    static inline T& get_global()
+    static T& get_global()
     {
         M<T> guard;
         (void)guard;
 
         if (!detail::singularity_instance<T>::get_enabled)
-            throw singularity_no_global_access{};
+            JET_THROW_EX(singleton_error) << "singularity<" << demangle(typeid(T).name()) << "> doesn't have global access";
 
         if (!detail::singularity_instance<T>::ptr.get())
-            throw singularity_not_created{};
+            JET_THROW_EX(singleton_error) << "singularity<" << demangle(typeid(T).name()) << "> isn't created";
 
         return *detail::singularity_instance<T>::ptr;
     }
 private:
-    static inline void verify_not_created()
+    static void verify_not_created()
     {
         if (detail::singularity_instance<T>::ptr.get())
-            throw singularity_already_created{};
+            JET_THROW_EX(singleton_error) << "singularity<" << demangle(typeid(T).name()) << "> is already created";
     }
 };
 
 // Convenience macro which generates the required friend statement
 // for use inside classes which are created by singularity.
 #define FRIEND_CLASS_SINGULARITY \
-    template <class T, template <class> class M> friend class singularity
+    template <typename T, template <class> class M> friend class singularity
 
-} // boost namespace
+} //jet namespace
 
-#endif // SINGULARITY_CPP11_HPP_
+#endif /*JET_APPLICATION_SINGULARITY_HEADER_GUARD*/
