@@ -207,6 +207,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					/Users/alex/local/include,
 				);
+				INSTALL_PATH = /Users/alex/local/lib;
 				LIBRARY_SEARCH_PATHS = /Users/alex/local/include;
 				PRODUCT_NAME = "jet_$(TARGET_NAME)";
 			};
@@ -221,6 +222,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					/Users/alex/local/include,
 				);
+				INSTALL_PATH = /Users/alex/local/lib;
 				LIBRARY_SEARCH_PATHS = /Users/alex/local/include;
 				PRODUCT_NAME = "jet_$(TARGET_NAME)";
 			};

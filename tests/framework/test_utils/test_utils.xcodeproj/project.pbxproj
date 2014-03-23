@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		FA98CD4718B3B7AB002A5948 /* test_stacktrace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA98CD4618B3B7AB002A5948 /* test_stacktrace.cpp */; };
+		FAFE494818DF78F900A07767 /* libjet_utils.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FAFE494718DF78F900A07767 /* libjet_utils.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +26,7 @@
 /* Begin PBXFileReference section */
 		FA98CD3A18B3B76B002A5948 /* test_utils */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = test_utils; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA98CD4618B3B7AB002A5948 /* test_stacktrace.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_stacktrace.cpp; sourceTree = "<group>"; };
+		FAFE494718DF78F900A07767 /* libjet_utils.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libjet_utils.dylib; path = "../../../../../../Library/Developer/Xcode/DerivedData/jet-dsnkagwxbnmspcdqnoqzxlzbssit/Build/Products/Debug/libjet_utils.dylib"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +34,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FAFE494818DF78F900A07767 /* libjet_utils.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -41,6 +44,7 @@
 		FA98CD3118B3B76B002A5948 = {
 			isa = PBXGroup;
 			children = (
+				FAFE494718DF78F900A07767 /* libjet_utils.dylib */,
 				FA98CD4618B3B7AB002A5948 /* test_stacktrace.cpp */,
 				FA98CD3B18B3B76B002A5948 /* Products */,
 			);
@@ -155,7 +159,6 @@
 				OTHER_LDFLAGS = (
 					"-lgtest",
 					"-lgtest_main",
-					"-ljet_utils",
 				);
 				SDKROOT = macosx;
 			};
@@ -198,7 +201,6 @@
 				OTHER_LDFLAGS = (
 					"-lgtest",
 					"-lgtest_main",
-					"-ljet_utils",
 				);
 				SDKROOT = macosx;
 			};
@@ -207,6 +209,10 @@
 		FA98CD4418B3B76B002A5948 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/jet-dsnkagwxbnmspcdqnoqzxlzbssit/Build/Products/Debug",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -214,6 +220,10 @@
 		FA98CD4518B3B76B002A5948 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/jet-dsnkagwxbnmspcdqnoqzxlzbssit/Build/Products/Debug",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -237,6 +247,7 @@
 				FA98CD4518B3B76B002A5948 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

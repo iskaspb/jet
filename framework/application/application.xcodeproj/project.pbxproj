@@ -12,6 +12,7 @@
 		FA98DF4018AEBF5F0009A960 /* singleton_registry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA98DF3E18AEBF5F0009A960 /* singleton_registry.cpp */; };
 		FAC2472818BBADB500D15892 /* singularity_policies.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FAC2472518BBADB500D15892 /* singularity_policies.hpp */; };
 		FAC2472918BBADB500D15892 /* singularity.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FAC2472618BBADB500D15892 /* singularity.hpp */; };
+		FAFE494218DF778C00A07767 /* libjet_utils.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FAFE494118DF778C00A07767 /* libjet_utils.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 		FABAC3D918BCE088004F245B /* singleton.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = singleton.hpp; sourceTree = "<group>"; };
 		FAC2472518BBADB500D15892 /* singularity_policies.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = singularity_policies.hpp; path = impl/singularity_policies.hpp; sourceTree = "<group>"; };
 		FAC2472618BBADB500D15892 /* singularity.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = singularity.hpp; path = impl/singularity.hpp; sourceTree = "<group>"; };
+		FAFE494118DF778C00A07767 /* libjet_utils.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libjet_utils.dylib; path = "../../../../../Library/Developer/Xcode/DerivedData/jet-dsnkagwxbnmspcdqnoqzxlzbssit/Build/Products/Debug/libjet_utils.dylib"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +34,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FAFE494218DF778C00A07767 /* libjet_utils.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -41,6 +44,7 @@
 		FA5ECCD518955DE500B0F400 = {
 			isa = PBXGroup;
 			children = (
+				FAFE494118DF778C00A07767 /* libjet_utils.dylib */,
 				FABAC3D918BCE088004F245B /* singleton.hpp */,
 				FA98CD4818B51D17002A5948 /* assert.hpp */,
 				FA98DF3C18AEBF450009A960 /* impl */,
@@ -220,8 +224,15 @@
 					/Users/alex/local/include,
 					../../framework,
 				);
-				LIBRARY_SEARCH_PATHS = /Users/alex/local/lib;
-				OTHER_LDFLAGS = "-ljet_utils";
+				INSTALL_PATH = /Users/alex/local/lib;
+				LIBRARY_SEARCH_PATHS = (
+					/Users/alex/local/lib,
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/jet-dsnkagwxbnmspcdqnoqzxlzbssit/Build/Products/Debug",
+				);
+				OTHER_LDFLAGS = (
+					"-ljet_utils",
+					"-lboost_system",
+				);
 				PRODUCT_NAME = "jet_$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -236,8 +247,15 @@
 					/Users/alex/local/include,
 					../../framework,
 				);
-				LIBRARY_SEARCH_PATHS = /Users/alex/local/lib;
-				OTHER_LDFLAGS = "-ljet_utils";
+				INSTALL_PATH = /Users/alex/local/lib;
+				LIBRARY_SEARCH_PATHS = (
+					/Users/alex/local/lib,
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/jet-dsnkagwxbnmspcdqnoqzxlzbssit/Build/Products/Debug",
+				);
+				OTHER_LDFLAGS = (
+					"-ljet_utils",
+					"-lboost_system",
+				);
 				PRODUCT_NAME = "jet_$(TARGET_NAME)";
 			};
 			name = Release;

@@ -12,6 +12,7 @@
 
 #include "impl/singularity.hpp"
 #include <boost/noncopyable.hpp>
+#include <boost/application/context.hpp>
 #include <functional>
 #include <typeindex>
 #include <map>
@@ -24,12 +25,12 @@ class singleton_registry: boost::noncopyable
     struct factory
     {
         virtual ~factory() {}
-        virtual void create() = 0;
+        virtual void create(const boost::application::context& app_context) = 0;
         virtual void destroy() = 0;
     };
     template<typename T> struct factory_impl: factory
     {
-        void create() override
+        void create(const boost::application::context& app_context) override
         {
             singularity<T>::create_global();
         }
@@ -39,14 +40,14 @@ class singleton_registry: boost::noncopyable
         }
     };
 public:
-    singleton_registry();
+    explicit singleton_registry(const boost::application::context& app_context = {});
     ~singleton_registry();
     template<typename T>
     static void register_singleton()
     {
         std::type_index type_index{typeid(T)};
         if(registry_.count(type_index))
-            JET_THROW_EX(singleton_error) << "Duplicate registration of singleton<" << demangle(type_index.name()) << '>';
+            return;
         registry_[type_index] = std::unique_ptr<factory>{new factory_impl<T>{}};
     }
 private:

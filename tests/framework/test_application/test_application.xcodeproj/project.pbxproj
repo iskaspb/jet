@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		FA98DF1618A767380009A960 /* test_singleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA98DF1418A767380009A960 /* test_singleton.cpp */; };
 		FA98DF1718A767380009A960 /* test_throw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA98DF1518A767380009A960 /* test_throw.cpp */; };
+		FAFE493A18DF769300A07767 /* libjet_application.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FAFE493718DF769300A07767 /* libjet_application.dylib */; };
+		FAFE493B18DF769300A07767 /* libjet_config.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FAFE493818DF769300A07767 /* libjet_config.dylib */; };
+		FAFE493C18DF769300A07767 /* libjet_utils.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FAFE493918DF769300A07767 /* libjet_utils.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -27,6 +30,9 @@
 		FA5ECCEE18955E3200B0F400 /* test_application */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = test_application; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA98DF1418A767380009A960 /* test_singleton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_singleton.cpp; sourceTree = "<group>"; };
 		FA98DF1518A767380009A960 /* test_throw.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_throw.cpp; sourceTree = "<group>"; };
+		FAFE493718DF769300A07767 /* libjet_application.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libjet_application.dylib; path = "../../../../../../Library/Developer/Xcode/DerivedData/jet-dsnkagwxbnmspcdqnoqzxlzbssit/Build/Products/Debug/libjet_application.dylib"; sourceTree = "<group>"; };
+		FAFE493818DF769300A07767 /* libjet_config.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libjet_config.dylib; path = "../../../../../../Library/Developer/Xcode/DerivedData/jet-dsnkagwxbnmspcdqnoqzxlzbssit/Build/Products/Debug/libjet_config.dylib"; sourceTree = "<group>"; };
+		FAFE493918DF769300A07767 /* libjet_utils.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libjet_utils.dylib; path = "../../../../../../Library/Developer/Xcode/DerivedData/jet-dsnkagwxbnmspcdqnoqzxlzbssit/Build/Products/Debug/libjet_utils.dylib"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -34,6 +40,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FAFE493A18DF769300A07767 /* libjet_application.dylib in Frameworks */,
+				FAFE493B18DF769300A07767 /* libjet_config.dylib in Frameworks */,
+				FAFE493C18DF769300A07767 /* libjet_utils.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -43,6 +52,9 @@
 		FA5ECCE518955E3200B0F400 = {
 			isa = PBXGroup;
 			children = (
+				FAFE493718DF769300A07767 /* libjet_application.dylib */,
+				FAFE493818DF769300A07767 /* libjet_config.dylib */,
+				FAFE493918DF769300A07767 /* libjet_utils.dylib */,
 				FA98DF1418A767380009A960 /* test_singleton.cpp */,
 				FA98DF1518A767380009A960 /* test_throw.cpp */,
 				FA5ECCEF18955E3200B0F400 /* Products */,
@@ -153,14 +165,14 @@
 					/Users/alex/local/include,
 					../../../framework,
 				);
+				LD_RUNPATH_SEARCH_PATHS = /Users/alex/local/lib;
 				LIBRARY_SEARCH_PATHS = /Users/alex/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-lgtest",
 					"-lgtest_main",
-					"-ljet_application",
-					"-ljet_utils",
+					"-lboost_system",
 				);
 				SDKROOT = macosx;
 			};
@@ -198,13 +210,13 @@
 					/Users/alex/local/include,
 					../../../framework,
 				);
+				LD_RUNPATH_SEARCH_PATHS = /Users/alex/local/lib;
 				LIBRARY_SEARCH_PATHS = /Users/alex/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_LDFLAGS = (
 					"-lgtest",
 					"-lgtest_main",
-					"-ljet_application",
-					"-ljet_utils",
+					"-lboost_system",
 				);
 				SDKROOT = macosx;
 			};
@@ -213,6 +225,10 @@
 		FA5ECCF818955E3200B0F400 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/jet-dsnkagwxbnmspcdqnoqzxlzbssit/Build/Products/Debug",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -220,6 +236,10 @@
 		FA5ECCF918955E3200B0F400 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/jet-dsnkagwxbnmspcdqnoqzxlzbssit/Build/Products/Debug",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
