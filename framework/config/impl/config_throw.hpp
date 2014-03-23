@@ -9,7 +9,7 @@
 #ifndef JET_CONFIG_CONFIG_THROW_HEADER_GUARD
 #define JET_CONFIG_CONFIG_THROW_HEADER_GUARD
 
-#include "application/throw.hpp"
+#include "utils/throw.hpp"
 #include "config_error.hpp"
 
 #define JET_THROW_CFG() JET_THROW_EX(::jet::config_error)

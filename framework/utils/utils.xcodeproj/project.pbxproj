@@ -10,6 +10,10 @@
 		FA98CD1318B3B0C6002A5948 /* stacktrace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA98CD1218B3B0C6002A5948 /* stacktrace.cpp */; };
 		FA98DF3818AEB91C0009A960 /* demangle.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FA98DF3618AEB91C0009A960 /* demangle.hpp */; };
 		FA98DF3B18AEBEA20009A960 /* demangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA98DF3A18AEBEA20009A960 /* demangle.cpp */; };
+		FAFE494C18DF7B1300A07767 /* assert.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FAFE494918DF7B1300A07767 /* assert.hpp */; };
+		FAFE494D18DF7B1300A07767 /* exception.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FAFE494A18DF7B1300A07767 /* exception.hpp */; };
+		FAFE494E18DF7B1300A07767 /* throw.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FAFE494B18DF7B1300A07767 /* throw.hpp */; };
+		FAFE495018DF7B2400A07767 /* exception.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FAFE494F18DF7B2400A07767 /* exception.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -18,6 +22,10 @@
 		FA98DF2C18AEB62E0009A960 /* libjet_utils.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libjet_utils.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA98DF3618AEB91C0009A960 /* demangle.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = demangle.hpp; sourceTree = "<group>"; };
 		FA98DF3A18AEBEA20009A960 /* demangle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = demangle.cpp; path = impl/demangle.cpp; sourceTree = "<group>"; };
+		FAFE494918DF7B1300A07767 /* assert.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = assert.hpp; sourceTree = "<group>"; };
+		FAFE494A18DF7B1300A07767 /* exception.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = exception.hpp; sourceTree = "<group>"; };
+		FAFE494B18DF7B1300A07767 /* throw.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = throw.hpp; sourceTree = "<group>"; };
+		FAFE494F18DF7B2400A07767 /* exception.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = exception.cpp; path = impl/exception.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -34,6 +42,9 @@
 		FA98DF2318AEB62E0009A960 = {
 			isa = PBXGroup;
 			children = (
+				FAFE494918DF7B1300A07767 /* assert.hpp */,
+				FAFE494A18DF7B1300A07767 /* exception.hpp */,
+				FAFE494B18DF7B1300A07767 /* throw.hpp */,
 				FA98CD1118B3B0A8002A5948 /* stacktrace.hpp */,
 				FA98DF3918AEBA660009A960 /* impl */,
 				FA98DF3618AEB91C0009A960 /* demangle.hpp */,
@@ -52,6 +63,7 @@
 		FA98DF3918AEBA660009A960 /* impl */ = {
 			isa = PBXGroup;
 			children = (
+				FAFE494F18DF7B2400A07767 /* exception.cpp */,
 				FA98DF3A18AEBEA20009A960 /* demangle.cpp */,
 				FA98CD1218B3B0C6002A5948 /* stacktrace.cpp */,
 			);
@@ -65,7 +77,10 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FAFE494C18DF7B1300A07767 /* assert.hpp in Headers */,
 				FA98DF3818AEB91C0009A960 /* demangle.hpp in Headers */,
+				FAFE494D18DF7B1300A07767 /* exception.hpp in Headers */,
+				FAFE494E18DF7B1300A07767 /* throw.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -122,6 +137,7 @@
 			files = (
 				FA98CD1318B3B0C6002A5948 /* stacktrace.cpp in Sources */,
 				FA98DF3B18AEBEA20009A960 /* demangle.cpp in Sources */,
+				FAFE495018DF7B2400A07767 /* exception.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9,7 +9,7 @@
 #ifndef JET_CONFIG_CONFIG_ERROR_HEADER_GUARD
 #define JET_CONFIG_CONFIG_ERROR_HEADER_GUARD
 
-#include "application/exception.hpp"
+#include "utils/exception.hpp"
 
 namespace jet
 {

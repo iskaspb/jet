@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FA98DF2118AAC2AF0009A960 /* throw.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FA98DF1F18AAC2AF0009A960 /* throw.hpp */; };
-		FA98DF3F18AEBF5F0009A960 /* exception.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA98DF3D18AEBF5F0009A960 /* exception.cpp */; };
+		FA310E6918DF7C450034958B /* libjet_config.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FA310E6818DF7C450034958B /* libjet_config.dylib */; };
 		FA98DF4018AEBF5F0009A960 /* singleton_registry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA98DF3E18AEBF5F0009A960 /* singleton_registry.cpp */; };
 		FAC2472818BBADB500D15892 /* singularity_policies.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FAC2472518BBADB500D15892 /* singularity_policies.hpp */; };
 		FAC2472918BBADB500D15892 /* singularity.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FAC2472618BBADB500D15892 /* singularity.hpp */; };
@@ -16,12 +15,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FA310E6818DF7C450034958B /* libjet_config.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libjet_config.dylib; path = "../../../../../Library/Developer/Xcode/DerivedData/jet-dsnkagwxbnmspcdqnoqzxlzbssit/Build/Products/Debug/libjet_config.dylib"; sourceTree = "<group>"; };
 		FA5ECCDE18955DE500B0F400 /* libjet_application.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libjet_application.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA5ECCFA18955F4F00B0F400 /* singleton_registry.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; path = singleton_registry.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
-		FA98CD4818B51D17002A5948 /* assert.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = assert.hpp; sourceTree = "<group>"; };
-		FA98DF1818A77FB70009A960 /* exception.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; path = exception.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
-		FA98DF1F18AAC2AF0009A960 /* throw.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; path = throw.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
-		FA98DF3D18AEBF5F0009A960 /* exception.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = exception.cpp; path = impl/exception.cpp; sourceTree = "<group>"; };
 		FA98DF3E18AEBF5F0009A960 /* singleton_registry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = singleton_registry.cpp; path = impl/singleton_registry.cpp; sourceTree = "<group>"; };
 		FABAC3D918BCE088004F245B /* singleton.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = singleton.hpp; sourceTree = "<group>"; };
 		FAC2472518BBADB500D15892 /* singularity_policies.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = singularity_policies.hpp; path = impl/singularity_policies.hpp; sourceTree = "<group>"; };
@@ -34,6 +30,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA310E6918DF7C450034958B /* libjet_config.dylib in Frameworks */,
 				FAFE494218DF778C00A07767 /* libjet_utils.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -44,12 +41,10 @@
 		FA5ECCD518955DE500B0F400 = {
 			isa = PBXGroup;
 			children = (
+				FA310E6818DF7C450034958B /* libjet_config.dylib */,
 				FAFE494118DF778C00A07767 /* libjet_utils.dylib */,
 				FABAC3D918BCE088004F245B /* singleton.hpp */,
-				FA98CD4818B51D17002A5948 /* assert.hpp */,
 				FA98DF3C18AEBF450009A960 /* impl */,
-				FA98DF1F18AAC2AF0009A960 /* throw.hpp */,
-				FA98DF1818A77FB70009A960 /* exception.hpp */,
 				FA5ECCFA18955F4F00B0F400 /* singleton_registry.hpp */,
 				FA5ECCDF18955DE500B0F400 /* Products */,
 			);
@@ -68,7 +63,6 @@
 			children = (
 				FAC2472518BBADB500D15892 /* singularity_policies.hpp */,
 				FAC2472618BBADB500D15892 /* singularity.hpp */,
-				FA98DF3D18AEBF5F0009A960 /* exception.cpp */,
 				FA98DF3E18AEBF5F0009A960 /* singleton_registry.cpp */,
 			);
 			name = impl;
@@ -83,7 +77,6 @@
 			files = (
 				FAC2472918BBADB500D15892 /* singularity.hpp in Headers */,
 				FAC2472818BBADB500D15892 /* singularity_policies.hpp in Headers */,
-				FA98DF2118AAC2AF0009A960 /* throw.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -139,7 +132,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA98DF4018AEBF5F0009A960 /* singleton_registry.cpp in Sources */,
-				FA98DF3F18AEBF5F0009A960 /* exception.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

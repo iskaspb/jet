@@ -14,7 +14,6 @@
 		FA98DF4718AECA140009A960 /* config_source.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA98DF4318AECA140009A960 /* config_source.cpp */; };
 		FA98DF4818AECA140009A960 /* config_throw.hpp in Headers */ = {isa = PBXBuildFile; fileRef = FA98DF4418AECA140009A960 /* config_throw.hpp */; };
 		FA98DF4918AECA140009A960 /* config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA98DF4518AECA140009A960 /* config.cpp */; };
-		FAFE493F18DF76E300A07767 /* libjet_application.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FAFE493D18DF76E300A07767 /* libjet_application.dylib */; };
 		FAFE494018DF76E300A07767 /* libjet_utils.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FAFE493E18DF76E300A07767 /* libjet_utils.dylib */; };
 /* End PBXBuildFile section */
 
@@ -27,7 +26,6 @@
 		FA98DF4318AECA140009A960 /* config_source.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = config_source.cpp; path = impl/config_source.cpp; sourceTree = "<group>"; };
 		FA98DF4418AECA140009A960 /* config_throw.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = config_throw.hpp; path = impl/config_throw.hpp; sourceTree = "<group>"; };
 		FA98DF4518AECA140009A960 /* config.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = config.cpp; path = impl/config.cpp; sourceTree = "<group>"; };
-		FAFE493D18DF76E300A07767 /* libjet_application.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libjet_application.dylib; path = "../../../../../Library/Developer/Xcode/DerivedData/jet-dsnkagwxbnmspcdqnoqzxlzbssit/Build/Products/Debug/libjet_application.dylib"; sourceTree = "<group>"; };
 		FAFE493E18DF76E300A07767 /* libjet_utils.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libjet_utils.dylib; path = "../../../../../Library/Developer/Xcode/DerivedData/jet-dsnkagwxbnmspcdqnoqzxlzbssit/Build/Products/Debug/libjet_utils.dylib"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -36,7 +34,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FAFE493F18DF76E300A07767 /* libjet_application.dylib in Frameworks */,
 				FAFE494018DF76E300A07767 /* libjet_utils.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -47,7 +44,6 @@
 		FA436E89188C637F00F7EFDB = {
 			isa = PBXGroup;
 			children = (
-				FAFE493D18DF76E300A07767 /* libjet_application.dylib */,
 				FAFE493E18DF76E300A07767 /* libjet_utils.dylib */,
 				FA98DF4118AECA020009A960 /* impl */,
 				FA436E99188C646B00F7EFDB /* config_error.hpp */,

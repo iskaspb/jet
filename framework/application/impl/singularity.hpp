@@ -34,7 +34,7 @@
 #define JET_APPLICATION_SINGULARITY_HEADER_GUARD
 
 #include "singularity_policies.hpp"
-#include "../throw.hpp"
+#include "utils/throw.hpp"
 #include "utils/demangle.hpp"
 
 namespace jet

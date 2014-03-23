@@ -3,7 +3,7 @@
 //  1.0. (See accompanying file LICENSE_1_0.txt or copy at
 //  http://www.boost.org/LICENSE_1_0.txt)
 //
-#include "application/assert.hpp"
+#include "utils/assert.hpp"
 #include <gtest/gtest.h>
 #include <stdexcept>
 #include <iostream>

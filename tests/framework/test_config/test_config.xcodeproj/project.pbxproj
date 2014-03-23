@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FA310E6B18DF7C580034958B /* libjet_utils.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FA310E6A18DF7C580034958B /* libjet_utils.dylib */; };
 		FA436ED1188C682700F7EFDB /* test_config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA436ED0188C682700F7EFDB /* test_config.cpp */; };
 		FAFE494418DF783400A07767 /* libjet_config.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FAFE494318DF783400A07767 /* libjet_config.dylib */; };
-		FAFE494618DF785100A07767 /* libjet_application.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FAFE494518DF785100A07767 /* libjet_application.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,11 +25,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		FA310E6A18DF7C580034958B /* libjet_utils.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libjet_utils.dylib; path = "../../../../../../Library/Developer/Xcode/DerivedData/jet-dsnkagwxbnmspcdqnoqzxlzbssit/Build/Products/Debug/libjet_utils.dylib"; sourceTree = "<group>"; };
 		FA436EC3188C679E00F7EFDB /* test_config */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = test_config; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA436ECF188C682700F7EFDB /* gtest.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = gtest.hpp; sourceTree = "<group>"; };
 		FA436ED0188C682700F7EFDB /* test_config.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_config.cpp; sourceTree = "<group>"; };
 		FAFE494318DF783400A07767 /* libjet_config.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libjet_config.dylib; path = "../../../../../../Library/Developer/Xcode/DerivedData/jet-dsnkagwxbnmspcdqnoqzxlzbssit/Build/Products/Debug/libjet_config.dylib"; sourceTree = "<group>"; };
-		FAFE494518DF785100A07767 /* libjet_application.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libjet_application.dylib; path = "../../../../../../Library/Developer/Xcode/DerivedData/jet-dsnkagwxbnmspcdqnoqzxlzbssit/Build/Products/Debug/libjet_application.dylib"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,7 +37,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FAFE494618DF785100A07767 /* libjet_application.dylib in Frameworks */,
+				FA310E6B18DF7C580034958B /* libjet_utils.dylib in Frameworks */,
 				FAFE494418DF783400A07767 /* libjet_config.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -48,7 +48,7 @@
 		FA436EBA188C679E00F7EFDB = {
 			isa = PBXGroup;
 			children = (
-				FAFE494518DF785100A07767 /* libjet_application.dylib */,
+				FA310E6A18DF7C580034958B /* libjet_utils.dylib */,
 				FAFE494318DF783400A07767 /* libjet_config.dylib */,
 				FA436ECF188C682700F7EFDB /* gtest.hpp */,
 				FA436ED0188C682700F7EFDB /* test_config.cpp */,

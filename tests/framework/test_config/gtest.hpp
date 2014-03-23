@@ -6,7 +6,7 @@
 #ifndef JET_CONFIG_GTEST_HEADER_GUARD
 #define JET_CONFIG_GTEST_HEADER_GUARD
 
-#include "application/exception.hpp"
+#include "utils/exception.hpp"
 #include <gtest/gtest.h>
 #include <boost/optional.hpp>
 #include <vector>
